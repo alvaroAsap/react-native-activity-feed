@@ -3,6 +3,13 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { humanizeTimestamp } from '../utils';
 
+import Avatar from './Avatar';
+import FollowButton from './FollowButton';
+import type { StyleSheetLike } from '../types';
+import { buildStylesheet } from '../styles';
+import { withTranslationContext } from '../Context';
+import type { Streami18Ctx } from '../Context';
+
 type Props = {|
   username: ?string,
   avatar?: string,
@@ -20,27 +27,23 @@ type Props = {|
  * A compact horizontal user information box (it is used as activities' header)
  * @example ./examples/UserBar.md
  */
-const UserBar = ({
+const UserBar = withTranslationContext({
   username,
   location,
   subtitle,
   avatar,
-  buildStylesheet,
-  follow,
   onPressAvatar,
   icon,
   tDateTimeParser,
   addPerson,
   font,
-  Avatar,
   ...props
-}) => {
-  username = username || 'Unknown';
-  location = location || 'Unknown';
-  let time = props.time;
-  if (time === undefined && props.timestamp != null) {
-    time = humanizeTimestamp(props.timestamp, tDateTimeParser);
-  }
+}): Props) => {
+    username = username || 'Unknown';
+    let time = props.time;
+    if (time === undefined && props.timestamp != null) {
+      time = humanizeTimestamp(props.timestamp, tDateTimeParser);
+    }
 
   const styles = buildStylesheet('userBar', props.styles);
 
