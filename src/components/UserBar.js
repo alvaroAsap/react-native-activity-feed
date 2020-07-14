@@ -27,18 +27,19 @@ type Props = {|
  * A compact horizontal user information box (it is used as activities' header)
  * @example ./examples/UserBar.md
  */
-const UserBar = withTranslationContext({
-  username,
-  location,
-  subtitle,
-  avatar,
-  onPressAvatar,
-  icon,
-  tDateTimeParser,
-  addPerson,
-  font,
-  ...props
-}): Props) => {
+const UserBar = withTranslationContext(
+  ({
+    username,
+    location,
+    subtitle,
+    avatar,
+    onPressAvatar,
+    icon,
+    tDateTimeParser,
+    addPerson,
+    font,
+    ...props
+  }: Props) => {
     username = username || 'Unknown';
     let time = props.time;
     if (time === undefined && props.timestamp != null) {
