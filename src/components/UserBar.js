@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { humanizeTimestamp } from '../utils';
 
 type Props = {|
@@ -25,12 +25,14 @@ const UserBar = ({
   location,
   subtitle,
   avatar,
+  buildStylesheet,
   follow,
   onPressAvatar,
   icon,
   tDateTimeParser,
   addPerson,
   font,
+  Avatar,
   ...props
 }) => {
   username = username || 'Unknown';
