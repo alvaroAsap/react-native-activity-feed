@@ -72,11 +72,6 @@
     "prepack": "bin/prepack.sh",
     "postpack": "bin/postpack.sh"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "dotgit/hooks/pre-commit-format.sh && dotgit/hooks/pre-commit-reject-binaries.py"
-    }
-  },
   "dependencies": {
     "dayjs": "^1.8.23",
     "es6-symbol": "^3.1.1",
