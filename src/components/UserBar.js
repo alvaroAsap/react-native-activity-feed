@@ -101,7 +101,7 @@ const UserBar = withTranslationContext(
           </View>
         )} */}
         <View>
-          <Image source={image} testID="coin-test" />
+          <Image source={image}/>
         </View>
         {/* {follow && (
           <View>

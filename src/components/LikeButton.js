@@ -36,6 +36,8 @@ type Props = {|
 export default class LikeButton extends React.Component<Props> {
   static defaultProps = {
     reactionKind: 'like',
+    activeImage: '',
+    inactiveImage: '',
   };
   _onPress = () => {
     const {
@@ -71,8 +73,8 @@ export default class LikeButton extends React.Component<Props> {
         own_reactions={own_reactions}
         kind={reactionKind}
         onPress={this._onPress}
-        activeIcon={require('../images/icons/heart.png')}
-        inactiveIcon={require('../images/icons/heart-outline.png')}
+        activeIcon={this.props.activeImage}
+        inactiveIcon={this.props.inactiveImage}
       />
     );
   }
