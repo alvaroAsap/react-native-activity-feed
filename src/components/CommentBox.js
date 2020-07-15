@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Image } from 'react-native';
 import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 
 import Avatar from './Avatar';
@@ -38,6 +38,8 @@ type Props = {|
   verticalOffset: number,
   /** Any props the React Native TextInput accepts */
   textInputProps?: {},
+  reactionImage ?: string,
+  coin ?: string,
 |} & Streami18Ctx;
 
 type State = {|
@@ -77,13 +79,8 @@ class CommentBox extends React.Component<Props, State> {
     const styles = buildStylesheet('commentBox', this.props.styles);
     const input = (
       <View style={styles.container}>
-        {this.props.noAvatar || (
-          <Avatar
-            size={48}
-            styles={styles.avatar}
-            {...this.props.avatarProps}
-          />
-        )}
+
+        <Image source={this.props.reactionImage}/>
         <TextInput
           value={this.state.text}
           style={styles.textInput}
@@ -93,10 +90,12 @@ class CommentBox extends React.Component<Props, State> {
             this.setState({ text: '' });
             this.postComment(event);
           }}
-          placeholder={t('Start Typing...')}
+
+          placeholder={t('Comment')}
           returnKeyType="send"
           {...textInputProps}
         />
+        {this.props.coin}
       </View>
     );
     if (noKeyboardAccessory) {

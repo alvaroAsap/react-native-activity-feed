@@ -7,11 +7,15 @@ import {
   Dimensions,
   TouchableOpacity,
   Linking,
+  ImageBackground,
 } from 'react-native';
 
-import { buildStylesheet } from '../styles';
+import { buildStylesheet, updateStyle } from '../styles';
 
 import _ from 'lodash';
+
+import ReactionIcon from './ReactionIcon';
+import LikeButton from './LikeButton';
 
 import UserBar from './UserBar';
 import Card from './Card';
@@ -185,6 +189,38 @@ export default class Activity extends React.Component<Props> {
         rendered.push(<Text style={styles.text}>{tokens[i] + ' '}</Text>);
       }
     }
+
+    updateStyle(
+      'likeButton', {
+      text: {
+        color: "#DADADA",
+        fontFamily: this.props.font,
+        fontStyle: "normal",
+        fontWeight: '600',
+        fontSize: 20,
+        lineHeight: 34,
+      }
+    });
+    updateStyle(
+      'reactionIcon', {
+      text: {
+        color: "#DADADA",
+        fontFamily: this.props.font,
+        fontStyle: "normal",
+        fontWeight: '600',
+        fontSize: 20,
+        lineHeight: 34,
+      }
+    });
+    updateStyle(
+      'activity', {
+      container: {
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
+      }
+    });
+
+
+
     return rendered;
   };
 
@@ -211,7 +247,8 @@ export default class Activity extends React.Component<Props> {
       <View>
         {Boolean(text) && (
           <View style={styles.content}>
-            <Text style={styles.text}>
+            <Text style={styles.text}
+              numberOfLines={3} ellipsizeMode='tail'>
               {this.renderText(text, this.props.activity)}
             </Text>
           </View>
@@ -226,11 +263,31 @@ export default class Activity extends React.Component<Props> {
         )}
 
         {attachments && attachments.images && attachments.images.length > 0 && (
-          <Image
-            style={{ width, height: width }}
-            source={{ uri: attachments.images[0] }}
-            resizeMethod="resize"
-          />
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <ImageBackground
+              {...this.props}
+              style={{ width, height: width, justifyContent: "flex-end" }}
+              source={{ uri: attachments.images[0] }}
+              resizeMethod="resize"
+            >
+              <View style={{ flexDirection: "row" }}>
+                <LikeButton
+                  {...this.props}
+                  labelSingle="comment"
+                  labelPlural="comments"
+                  activeImage={this.props.activeLikeImage}
+                  inactiveImage={this.props.inactiveLikeImage}
+                />
+                <ReactionIcon
+                  labelSingle="comment"
+                  labelPlural="comments"
+                  icon={this.props.chatImage}
+                  counts={this.props.activity}
+                  kind="comment"
+                />
+              </View>
+            </ImageBackground>
+          </View>
         )}
         {attachments &&
           attachments.og &&
