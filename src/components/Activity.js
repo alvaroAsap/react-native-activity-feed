@@ -3,12 +3,13 @@ import * as React from 'react';
 import {
   View,
   Text,
-  Image,
   Dimensions,
   TouchableOpacity,
   Linking,
   ImageBackground,
 } from 'react-native';
+
+import ReadMore from 'react-native-read-more-text';
 
 import { buildStylesheet, updateStyle } from '../styles';
 
@@ -29,25 +30,25 @@ import { smartRender } from '../utils';
 
 type Props = {|
   Header?: Renderable,
-  Content?: Renderable,
-  Footer?: Renderable,
-  // The component that displays the url preview
-  Card: Renderable,
-  onPress?: () => mixed,
-  onPressAvatar?: () => mixed,
-  onPressMention?: (text: string, activity: {}) => mixed,
-  onPressHashtag?: (text: string, activity: {}) => mixed,
-  sub?: string,
-  icon?: string,
-  activity: ActivityData,
-  /** Width of an image that's displayed, by default this is
-   * the width of the screen */
-  imageWidth?: number,
-  /** Styling of the component */
-  styles?: StyleSheetLike,
-  /** Handle errors in the render method in a custom way, by
-   * default this component logs the error in the console **/
-  componentDidCatch?: (error: Error, info: {}, props: Props) => mixed,
+    Content ?: Renderable,
+    Footer ?: Renderable,
+    // The component that displays the url preview
+    Card: Renderable,
+      onPress ?: () => mixed,
+      onPressAvatar ?: () => mixed,
+      onPressMention ?: (text: string, activity: {}) => mixed,
+      onPressHashtag ?: (text: string, activity: {}) => mixed,
+      sub ?: string,
+      icon ?: string,
+      activity: ActivityData,
+        /** Width of an image that's displayed, by default this is
+         * the width of the screen */
+        imageWidth ?: number,
+        /** Styling of the component */
+        styles ?: StyleSheetLike,
+        /** Handle errors in the render method in a custom way, by
+         * default this component logs the error in the console **/
+        componentDidCatch ?: (error: Error, info: {}, props: Props) => mixed,
 |};
 
 /**
@@ -190,36 +191,41 @@ export default class Activity extends React.Component<Props> {
       }
     }
 
-    updateStyle(
-      'likeButton', {
+    const customStyles = StyleSheet.create({
+      lineStyle: {
+        borderWidth: 0.5,
+        borderColor: 'black',
+        marginHorizontal: 0,
+        marginVertical: 10,
+      },
       text: {
-        color: "#DADADA",
         fontFamily: this.props.font,
         fontStyle: "normal",
         fontWeight: '600',
         fontSize: 20,
         lineHeight: 34,
+      },
+      container: {
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
+      },
+      hashtag: {
+        color: "#008DFF",
       }
+
+    });
+
+    updateStyle(
+      'likeButton', {
+      text: customStyles.text
     });
     updateStyle(
       'reactionIcon', {
-      text: {
-        color: "#DADADA",
-        fontFamily: this.props.font,
-        fontStyle: "normal",
-        fontWeight: '600',
-        fontSize: 20,
-        lineHeight: 34,
-      }
+      text: customStyles.text,
     });
     updateStyle(
       'activity', {
-      container: {
-        backgroundColor: "rgba(255, 255, 255, 0.9)",
-      }
+      container: customStyles.container,
     });
-
-
 
     return rendered;
   };
@@ -242,53 +248,107 @@ export default class Activity extends React.Component<Props> {
       }
     }
     text = text.trim();
+    let tags = "Fitness Health WorkinOut";
 
     return (
       <View>
-        {Boolean(text) && (
-          <View style={styles.content}>
-            <Text style={styles.text}
-              numberOfLines={3} ellipsizeMode='tail'>
-              {this.renderText(text, this.props.activity)}
-            </Text>
-          </View>
-        )}
+        {
+          (attachments && attachments.images && attachments.images.length > 0) ?
+            (
+              <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={styles.content}>
+                  <ReadMore
+                    numberOfLines={3}
+                    renderTruncatedFooter={this._renderTruncatedFooter}
+                    renderRevealedFooter={this._renderRevealedFooter}
+                    onReady={this._handleTextReady}>
+                    <Text style={styles.text}>
+                      {this.renderText(text, this.props.activity)}
+                    </Text>
+                  </ReadMore>
+                </View>
 
-        {Boolean(image) && (
-          <Image
-            style={{ width, height: width }}
-            source={{ uri: image }}
-            resizeMethod="resize"
-          />
-        )}
+                {{ tags } &&
+                  (<View style={styles.content}>
+                    <Text style={{ color: "#008DFF" }}>
+                      {tags}
+                    </Text>
+                  </View>)
+                }
 
-        {attachments && attachments.images && attachments.images.length > 0 && (
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <ImageBackground
-              {...this.props}
-              style={{ width, height: width, justifyContent: "flex-end" }}
-              source={{ uri: attachments.images[0] }}
-              resizeMethod="resize"
-            >
-              <View style={{ flexDirection: "row" }}>
-                <LikeButton
+
+                <ImageBackground
                   {...this.props}
-                  labelSingle="comment"
-                  labelPlural="comments"
-                  activeImage={this.props.activeLikeImage}
-                  inactiveImage={this.props.inactiveLikeImage}
-                />
-                <ReactionIcon
-                  labelSingle="comment"
-                  labelPlural="comments"
-                  icon={this.props.chatImage}
-                  counts={this.props.activity}
-                  kind="comment"
-                />
+                  style={{ width, height: width, justifyContent: "flex-end" }}
+                  source={{ uri: attachments.images[0] }}
+                  resizeMethod="resize"
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <LikeButton
+                      {...this.props}
+                      labelSingle="like"
+                      labelPlural="likes"
+                      activeImage={this.props.activeLikeImage}
+                      inactiveImage={this.props.inactiveLikeImage}
+                    />
+                    <ReactionIcon
+                      labelSingle="comment"
+                      labelPlural="comments"
+                      icon={this.props.chatWhiteImage}
+                      counts={this.props.activity.reaction_counts}
+                      kind="comment"
+                    />
+                  </View>
+                </ImageBackground>
               </View>
-            </ImageBackground>
-          </View>
-        )}
+            ) : (
+              <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={styles.content}>
+                  <ReadMore
+                    numberOfLines={3}
+                    renderTruncatedFooter={this._renderTruncatedFooter}
+                    renderRevealedFooter={this._renderRevealedFooter}
+                    onReady={this._handleTextReady}>
+                    <Text style={styles.text}>
+                      {this.renderText(text, this.props.activity)}
+                    </Text>
+                  </ReadMore>
+                </View>
+
+                {{ tags } &&
+                  (<View style={styles.content}>
+                    <Text style={{ color: "#008DFF" }}>
+                      {tags}
+                    </Text>
+                  </View>)
+                }
+
+                <View style={{
+                  borderWidth: 1,
+                  borderColor: '#DADADA',
+                  marginHorizontal: 25,
+                  marginVertical: 12,
+                }} />
+
+                <View style={{ flexDirection: "row" }}>
+                  <LikeButton
+                    {...this.props}
+                    labelSingle="like"
+                    labelPlural="likes"
+                    activeImage={this.props.activeLikeImage}
+                    inactiveImage={this.props.inactiveLikeImage}
+                  />
+                  <ReactionIcon
+                    labelSingle="comment"
+                    labelPlural="comments"
+                    icon={this.props.chatGrayImage}
+                    counts={this.props.activity.reaction_counts}
+                    kind="comment"
+                  />
+                </View>
+              </View>
+            )
+        }
         {attachments &&
           attachments.og &&
           Object.keys(attachments.og).length > 0 &&

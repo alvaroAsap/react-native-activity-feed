@@ -50,7 +50,7 @@ function defaultLabelFunction(count, props) {
   let label;
 
   if (labelSingle && labelPlural) {
-    label = count === 1 ? `1 ${labelSingle}` : `${count} ${labelPlural}`;
+    label = count === 1 ? `1` : `${count}`;
   }
 
   if (!labelSingle || !labelPlural) {

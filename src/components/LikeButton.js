@@ -75,6 +75,8 @@ export default class LikeButton extends React.Component<Props> {
         onPress={this._onPress}
         activeIcon={this.props.activeImage}
         inactiveIcon={this.props.inactiveImage}
+        labelSingle={this.props.labelSingle}
+        labelPlural={this.props.labelPlural}
       />
     );
   }
