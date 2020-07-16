@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import ReadMore from 'react-native-read-more-text';
+import { humanizeTimestamp } from '../utils';
 
 import { buildStylesheet, updateStyle } from '../styles';
 
@@ -299,6 +300,8 @@ export default class Activity extends React.Component<Props> {
                       counts={this.props.activity.reaction_counts}
                       kind="comment"
                     />
+                    <Text style={{ alignSelf: "flex-end", color: "red" }}>{humanizeTimestamp(this.props.time)}
+                    </Text>
                   </View>
                 </ImageBackground>
               </View>
@@ -346,6 +349,9 @@ export default class Activity extends React.Component<Props> {
                     counts={this.props.activity.reaction_counts}
                     kind="comment"
                   />
+                  <Text style={{ alignSelf: "flex-end", color: "red" }}>
+                    {humanizeTimestamp(this.props.time)}
+                  </Text>
                 </View>
               </View>
             )
