@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Linking,
   ImageBackground,
+  StyleSheet,
 } from 'react-native';
 
 import ReadMore from 'react-native-read-more-text';
