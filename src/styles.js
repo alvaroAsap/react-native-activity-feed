@@ -332,8 +332,8 @@ export const styles = {
     },
     image: {
       marginRight: 5,
-      width: 26,
-      height: 24,
+      width: 19.62,
+      height: 18,
     },
   }),
   pagerBlock: StyleSheet.create({
@@ -364,8 +364,8 @@ export const styles = {
     },
     image: {
       marginRight: 5,
-      height: 24,
-      width: 24,
+      height: 20,
+      width: 20,
     },
     text: {
       fontFamily: "Teko",

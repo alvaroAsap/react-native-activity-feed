@@ -211,7 +211,7 @@ export default class Activity extends React.Component<Props> {
     }
     text = text.trim();
     let tags = "Fitness Health WorkinOut";
-    
+
     return (
       <View>
         {
@@ -266,11 +266,10 @@ export default class Activity extends React.Component<Props> {
                     <View style={{ marginRight: 20 }}>
                       <Text style={{
                         color: "white",
-                        justifyContent: "flex-end",
-                        lineHeight: 34,
-                        alignItems: "center",
                         paddingTop: 5,
                         paddingBottom: 5,
+                        lineHeight: 22,
+                        fontSize: 16,
                       }}>
                         {humanizeTimestamp(this.props.time)}
                       </Text>
@@ -329,11 +328,10 @@ export default class Activity extends React.Component<Props> {
                   <View style={{ marginHorizontal: 20 }}>
                     <Text style={{
                       color: "#999999",
-                      lineHeight: 34,
-                      alignItems: "center",
                       paddingTop: 5,
                       paddingBottom: 5,
-
+                      lineHeight: 22,
+                      fontSize: 16,
                     }}>
                       {humanizeTimestamp(this.props.time)}
                     </Text>
