@@ -78,7 +78,6 @@ export const styles = {
       shadowColor: 'black',
       shadowOpacity: 0.1,
       backgroundColor: '#f6f6f6',
-      height: 80,
     },
     containerFocused: {
       height: 120,
@@ -89,24 +88,43 @@ export const styles = {
     newPostContainer: {
       backgroundColor: '#ffffff',
       padding: 15,
-      flexDirection: 'row',
       flex: 1,
     },
     textInput: {
       position: 'relative',
-      // borderWidth: 1,
-      // borderColor: 'red',
-      padding: 10,
-      marginRight: 10,
       flex: 1,
-      backgroundColor: '#f8f8f8',
-      borderRadius: 10,
+      backgroundColor: '#ffffff',
+    },
+    textInputTitle: {
+      paddingBottom: 10
+    },
+    textInputCountLimit: {
+      justifyContent: 'flex-end',
+      flex: 1,
+      textAlign: 'right'
+    },
+    singleTextInput: {
+      position: 'relative',
+      flex: 1,
+      backgroundColor: '#ffffff',
+    },
+    inputField: {
+      borderRadius: 2,
+      borderColor: '#999999',
+      borderWidth: 1,
+      padding: 15
+    },
+    largeInputField: {
+      borderRadius: 2,
+      borderColor: '#999999',
+      borderWidth: 1,
+      padding: 15,
+      height: 150
     },
     actionPanel: {
-      justifyContent: 'space-between',
+      justifyContent: 'center',
     },
     actionPanelBlur: {
-      flexDirection: 'row',
       alignItems: 'center',
     },
     accessory: {
@@ -119,15 +137,13 @@ export const styles = {
       alignItems: 'center',
     },
     imageContainer: {
-      width: 30,
-      height: 30,
-      overflow: 'hidden',
+      flex: 1,
       borderRadius: 4,
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 20,
     },
     imageContainerBlur: {
-      marginRight: 8,
     },
     imageOverlay: {
       position: 'absolute',

@@ -8,10 +8,13 @@
   "Load more": "Load more",
   "Pick an image from camera roll": "Pick an image from camera roll",
   "Start Typing...": "Start Typing...",
-  "Type your post...": "Type your post...",
+  "Type your post...": "Start Typing",
   "You have 1 new notification": "You have 1 new notification",
   "You have {{ notificationCount }} new notifications": "You have {{ notificationCount }} new notifications",
   "{{ countComments }} comments": "{{ countComments }} comments",
   "{{ countLikes }} likes": "{{ countLikes }} likes",
-  "{{ countReposts }} reposts": "{{ countReposts }} reposts"
+  "{{ countReposts }} reposts": "{{ countReposts }} reposts",
+  "Tags": "Tags",
+  "Add \"Fitness\" or \"Family\"": "Add \"Fitness\" or \"Family\"",
+  "What are your thoughts?": "What are your thoughts?"
 }
