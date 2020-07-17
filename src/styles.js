@@ -41,9 +41,13 @@ export const styles = {
       flex: 1,
     },
     username: {
-      fontSize: 17,
-      fontWeight: '300',
       marginBottom: 4,
+      fontFamily: "Roboto-Bold",
+      fontStyle: "normal",
+      fontWeight: '500',
+      fontSize: 18,
+      lineHeight: 22,
+      color: "#151522",
     },
     subtitle: {
       fontSize: 15,
@@ -222,7 +226,7 @@ export const styles = {
       backgroundColor: 'white',
       flexDirection: 'row',
       alignItems: 'center',
-      padding: 15,
+      paddingHorizontal: 10,
     },
     textInput: {
       flex: 1,
@@ -320,7 +324,7 @@ export const styles = {
       paddingBottom: 5,
     },
     text: {
-      fontFamily: "Teko",
+      fontFamily: "Teko-Bold",
       fontStyle: "normal",
       fontWeight: '600',
       fontSize: 20,
@@ -365,6 +369,14 @@ export const styles = {
     },
     text: {
       fontFamily: "Teko",
+      fontStyle: "normal",
+      fontWeight: '600',
+      fontSize: 20,
+      lineHeight: 34,
+    },
+    textActive: {
+      fontFamily: "Teko",
+      color: "#008DFF",
       fontStyle: "normal",
       fontWeight: '600',
       fontSize: 20,
@@ -465,7 +477,7 @@ export const styles = {
   }),
 };
 
-const depthOf = function(object) {
+const depthOf = function (object) {
   let level = 1;
   let key;
   for (key in object) {

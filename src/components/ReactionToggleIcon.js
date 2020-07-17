@@ -52,8 +52,10 @@ export default function ReactionToggleIcon({
   ...props
 }: Props) {
   let icon = inactiveIcon;
+  let own_reaction = false;
   if (own_reactions && own_reactions[kind] && own_reactions[kind].length) {
     icon = activeIcon;
+    own_reaction = true;
   }
-  return <ReactionIcon icon={icon} kind={kind} {...props} />;
+  return <ReactionIcon icon={icon} kind={kind} reaction={own_reaction} {...props} />;
 }

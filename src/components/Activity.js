@@ -211,7 +211,7 @@ export default class Activity extends React.Component<Props> {
     }
     text = text.trim();
     let tags = "Fitness Health WorkinOut";
-
+    
     return (
       <View>
         {
