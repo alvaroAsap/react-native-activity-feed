@@ -13,5 +13,6 @@
   "You have {{ notificationCount }} new notifications": "You have {{ notificationCount }} new notifications",
   "{{ countComments }} comments": "{{ countComments }} comments",
   "{{ countLikes }} likes": "{{ countLikes }} likes",
-  "{{ countReposts }} reposts": "{{ countReposts }} reposts"
+  "{{ countReposts }} reposts": "{{ countReposts }} reposts",
+  "Comment": "Comment"
 }

@@ -221,7 +221,8 @@ export const styles = {
       //shadowOffset: { width: 0, height: -3 },
       //shadowColor: 'black',
       //shadowOpacity: 0.1,
-      borderWidth: 2,
+      borderWidth: 1,
+      borderRadius: 2,
       borderColor: 'rgba(153, 153, 153, 0.3)',
       backgroundColor: 'white',
       flexDirection: 'row',
@@ -260,8 +261,8 @@ export const styles = {
     container: {
       paddingTop: 15,
       paddingBottom: 15,
-      borderBottomColor: 'rgba(0,0,0,0.1)',
-      borderBottomWidth: 1,
+      borderBottomColor: '#F1F1F1',
+      borderBottomWidth: 10,
       backgroundColor: "rgba(255, 255, 255, 0.9)",
     },
     header: {
