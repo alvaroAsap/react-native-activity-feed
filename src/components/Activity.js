@@ -224,7 +224,7 @@ export default class Activity extends React.Component<Props> {
                     renderTruncatedFooter={this._renderTruncatedFooter}
                     renderRevealedFooter={this._renderRevealedFooter}
                     onReady={this._handleTextReady}>
-                    <Text style={styles.text, { text: { color: "red" } }}>
+                    <Text style={styles.text}>
                       {this.renderText(text, this.props.activity)}
                     </Text>
                   </ReadMore>
