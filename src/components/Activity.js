@@ -7,11 +7,10 @@ import {
   TouchableOpacity,
   Linking,
   ImageBackground,
-  StyleSheet,
 } from 'react-native';
 
-import ReadMore from 'react-native-read-more-text';
 import { humanizeTimestamp } from '../utils';
+import ReadMore from 'react-native-read-more-text';
 
 import { buildStylesheet, updateStyle } from '../styles';
 
@@ -24,8 +23,6 @@ import UserBar from './UserBar';
 import Card from './Card';
 import type {
   ActivityData,
-  StyleSheetLike,
-  Renderable,
   BaseUserResponse,
 } from '../types';
 import { smartRender } from '../utils';
@@ -192,43 +189,6 @@ export default class Activity extends React.Component<Props> {
         rendered.push(<Text style={styles.text}>{tokens[i] + ' '}</Text>);
       }
     }
-
-    const customStyles = StyleSheet.create({
-      lineStyle: {
-        borderWidth: 0.5,
-        borderColor: 'black',
-        marginHorizontal: 0,
-        marginVertical: 10,
-      },
-      text: {
-        fontFamily: this.props.font,
-        fontStyle: "normal",
-        fontWeight: '600',
-        fontSize: 20,
-        lineHeight: 34,
-      },
-      container: {
-        backgroundColor: "rgba(255, 255, 255, 0.9)",
-      },
-      hashtag: {
-        color: "#008DFF",
-      }
-
-    });
-
-    updateStyle(
-      'likeButton', {
-      text: customStyles.text
-    });
-    updateStyle(
-      'reactionIcon', {
-      text: customStyles.text,
-    });
-    updateStyle(
-      'activity', {
-      container: customStyles.container,
-    });
-
     return rendered;
   };
 
@@ -264,7 +224,7 @@ export default class Activity extends React.Component<Props> {
                     renderTruncatedFooter={this._renderTruncatedFooter}
                     renderRevealedFooter={this._renderRevealedFooter}
                     onReady={this._handleTextReady}>
-                    <Text style={styles.text}>
+                    <Text style={styles.text, { text: { color: "red" } }}>
                       {this.renderText(text, this.props.activity)}
                     </Text>
                   </ReadMore>
@@ -272,12 +232,11 @@ export default class Activity extends React.Component<Props> {
 
                 {{ tags } &&
                   (<View style={styles.content}>
-                    <Text style={{ color: "#008DFF" }}>
+                    <Text style={styles.hashtag}>
                       {tags}
                     </Text>
                   </View>)
                 }
-
 
                 <ImageBackground
                   {...this.props}
@@ -286,22 +245,36 @@ export default class Activity extends React.Component<Props> {
                   resizeMethod="resize"
                 >
                   <View style={{ flexDirection: "row" }}>
-                    <LikeButton
-                      {...this.props}
-                      labelSingle="like"
-                      labelPlural="likes"
-                      activeImage={this.props.activeLikeImage}
-                      inactiveImage={this.props.inactiveLikeImage}
-                    />
-                    <ReactionIcon
-                      labelSingle="comment"
-                      labelPlural="comments"
-                      icon={this.props.chatWhiteImage}
-                      counts={this.props.activity.reaction_counts}
-                      kind="comment"
-                    />
-                    <Text style={{ alignSelf: "flex-end", color: "red" }}>{humanizeTimestamp(this.props.time)}
-                    </Text>
+                    <View style={{ flexDirection: "row", flex: 1, marginHorizontal: 20 }}>
+                      <LikeButton
+                        {...this.props}
+                        labelSingle="like"
+                        labelPlural="likes"
+                        activeImage={this.props.activeLikeImage}
+                        inactiveImage={this.props.inactiveLikeImage}
+                        styles={{ text: { color: "white" } }}
+                      />
+                      <ReactionIcon
+                        labelSingle="comment"
+                        labelPlural="comments"
+                        icon={this.props.chatWhiteImage}
+                        counts={this.props.activity.reaction_counts}
+                        kind="comment"
+                        styles={{ text: { color: "white" } }}
+                      />
+                    </View>
+                    <View style={{ marginRight: 20 }}>
+                      <Text style={{
+                        color: "white",
+                        justifyContent: "flex-end",
+                        lineHeight: 34,
+                        alignItems: "center",
+                        paddingTop: 5,
+                        paddingBottom: 5,
+                      }}>
+                        {humanizeTimestamp(this.props.time)}
+                      </Text>
+                    </View>
                   </View>
                 </ImageBackground>
               </View>
@@ -321,7 +294,7 @@ export default class Activity extends React.Component<Props> {
 
                 {{ tags } &&
                   (<View style={styles.content}>
-                    <Text style={{ color: "#008DFF" }}>
+                    <Text style={styles.hashtag}>
                       {tags}
                     </Text>
                   </View>)
@@ -330,28 +303,41 @@ export default class Activity extends React.Component<Props> {
                 <View style={{
                   borderWidth: 1,
                   borderColor: '#DADADA',
-                  marginHorizontal: 25,
                   marginVertical: 12,
+                  marginHorizontal: 20,
                 }} />
 
                 <View style={{ flexDirection: "row" }}>
-                  <LikeButton
-                    {...this.props}
-                    labelSingle="like"
-                    labelPlural="likes"
-                    activeImage={this.props.activeLikeImage}
-                    inactiveImage={this.props.inactiveLikeImage}
-                  />
-                  <ReactionIcon
-                    labelSingle="comment"
-                    labelPlural="comments"
-                    icon={this.props.chatGrayImage}
-                    counts={this.props.activity.reaction_counts}
-                    kind="comment"
-                  />
-                  <Text style={{ alignSelf: "flex-end", color: "red" }}>
-                    {humanizeTimestamp(this.props.time)}
-                  </Text>
+                  <View style={{ flexDirection: "row", flex: 1, marginHorizontal: 20 }}>
+                    <LikeButton
+                      {...this.props}
+                      labelSingle="like"
+                      labelPlural="likes"
+                      activeImage={this.props.activeLikeImage}
+                      inactiveImage={this.props.inactiveLikeImage}
+                      styles={{ text: { color: "#DADADA" } }}
+                    />
+                    <ReactionIcon
+                      labelSingle="comment"
+                      labelPlural="comments"
+                      icon={this.props.chatGrayImage}
+                      counts={this.props.activity.reaction_counts}
+                      kind="comment"
+                      styles={{ text: { color: "#DADADA" } }}
+                    />
+                  </View>
+                  <View style={{ marginHorizontal: 20 }}>
+                    <Text style={{
+                      color: "#999999",
+                      lineHeight: 34,
+                      alignItems: "center",
+                      paddingTop: 5,
+                      paddingBottom: 5,
+
+                    }}>
+                      {humanizeTimestamp(this.props.time)}
+                    </Text>
+                  </View>
                 </View>
               </View>
             )

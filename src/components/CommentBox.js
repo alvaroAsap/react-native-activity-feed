@@ -20,8 +20,8 @@ type Props = {|
   /** Props used to render the Avatar component */
   avatarProps?: AvatarProps,
   /** Skips the Avatar component when provided */
-  noAvatar?: boolean,
-  /** Style changes to default */
+    noAvatar ?: boolean,
+    /** Style changes to default */
   styles?: StyleSheetLike,
   /** activity */
   activity: ActivityData,
@@ -80,7 +80,7 @@ class CommentBox extends React.Component<Props, State> {
     const input = (
       <View style={styles.container}>
 
-        <Image source={this.props.reactionImage}/>
+        <Image source={this.props.reactionImage} />
         <TextInput
           value={this.state.text}
           style={styles.textInput}
@@ -105,7 +105,7 @@ class CommentBox extends React.Component<Props, State> {
     return (
       <React.Fragment>
         <View style={{ height: this.props.height }} />
-        <KeyboardAccessory verticalOffset={this.props.verticalOffset}>
+        <KeyboardAccessory verticalOffset={this.props.verticalOffset} backgroundColor='rgba(255, 255, 255, 0.9)'>
           {input}
         </KeyboardAccessory>
       </React.Fragment>

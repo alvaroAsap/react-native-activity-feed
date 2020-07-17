@@ -12,15 +12,15 @@ import type { Streami18Ctx } from '../Context';
 
 type Props = {|
   username: ?string,
-  avatar?: string,
-  subtitle?: string,
-  time?: string, // text that should be displayed as the time
-  timestamp?: string | number, // a timestamp that should be humanized
-  icon?: string,
+    avatar ?: string,
+    subtitle ?: string,
+    time ?: string, // text that should be displayed as the time
+    timestamp ?: string | number, // a timestamp that should be humanized
+    icon ?: string,
 
-  onPressAvatar?: () => mixed,
-  follow?: boolean,
-  styles?: StyleSheetLike,
+    onPressAvatar ?: () => mixed,
+    follow ?: boolean,
+    styles ?: StyleSheetLike,
 |} & Streami18Ctx;
 
 /**
@@ -55,7 +55,7 @@ const UserBar = withTranslationContext(
         flexDirection: "row"
       },
       location: {
-        //fontFamily: "Roboto",
+        fontFamily: "Roboto",
         fontStyle: "normal",
         fontSize: 18,
         lineHeight: 22,
@@ -101,7 +101,7 @@ const UserBar = withTranslationContext(
           </View>
         )} */}
         <View>
-          <Image source={image}/>
+          <Image source={image} />
         </View>
         {/* {follow && (
           <View>
