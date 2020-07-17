@@ -251,7 +251,7 @@ export default class Activity extends React.Component<Props> {
                         labelSingle="like"
                         labelPlural="likes"
                         activeImage={this.props.activeLikeImage}
-                        inactiveImage={this.props.inactiveLikeImage}
+                        inactiveImage={this.props.inactiveLikeImageWhite}
                         styles={{ text: { color: "white" } }}
                       />
                       <ReactionIcon
@@ -313,7 +313,7 @@ export default class Activity extends React.Component<Props> {
                       labelSingle="like"
                       labelPlural="likes"
                       activeImage={this.props.activeLikeImage}
-                      inactiveImage={this.props.inactiveLikeImage}
+                      inactiveImage={this.props.inactiveLikeImageGray}
                       styles={{ text: { color: "#DADADA" } }}
                     />
                     <ReactionIcon
