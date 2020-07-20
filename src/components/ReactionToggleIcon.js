@@ -47,6 +47,7 @@ type Props = {|
 export default function ReactionToggleIcon({
   activeIcon,
   inactiveIcon,
+  disableText,
   own_reactions,
   kind = 'like',
   ...props
@@ -57,5 +58,5 @@ export default function ReactionToggleIcon({
     icon = activeIcon;
     own_reaction = true;
   }
-  return <ReactionIcon icon={icon} kind={kind} reaction={own_reaction} {...props} />;
+  return <ReactionIcon disableText={disableText} icon={icon} kind={kind} reaction={own_reaction} {...props} />;
 }
