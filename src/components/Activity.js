@@ -3,47 +3,51 @@ import * as React from 'react';
 import {
   View,
   Text,
-  Image,
   Dimensions,
   TouchableOpacity,
   Linking,
+  ImageBackground,
 } from 'react-native';
 
-import { buildStylesheet } from '../styles';
+import { humanizeTimestamp } from '../utils';
+import ReadMore from 'react-native-read-more-text';
+
+import { buildStylesheet, updateStyle } from '../styles';
 
 import _ from 'lodash';
+
+import ReactionIcon from './ReactionIcon';
+import LikeButton from './LikeButton';
 
 import UserBar from './UserBar';
 import Card from './Card';
 import type {
   ActivityData,
-  StyleSheetLike,
-  Renderable,
   BaseUserResponse,
 } from '../types';
 import { smartRender } from '../utils';
 
 type Props = {|
   Header?: Renderable,
-  Content?: Renderable,
-  Footer?: Renderable,
-  // The component that displays the url preview
-  Card: Renderable,
-  onPress?: () => mixed,
-  onPressAvatar?: () => mixed,
-  onPressMention?: (text: string, activity: {}) => mixed,
-  onPressHashtag?: (text: string, activity: {}) => mixed,
-  sub?: string,
-  icon?: string,
-  activity: ActivityData,
-  /** Width of an image that's displayed, by default this is
-   * the width of the screen */
-  imageWidth?: number,
-  /** Styling of the component */
-  styles?: StyleSheetLike,
-  /** Handle errors in the render method in a custom way, by
-   * default this component logs the error in the console **/
-  componentDidCatch?: (error: Error, info: {}, props: Props) => mixed,
+    Content ?: Renderable,
+    Footer ?: Renderable,
+    // The component that displays the url preview
+    Card: Renderable,
+      onPress ?: () => mixed,
+      onPressAvatar ?: () => mixed,
+      onPressMention ?: (text: string, activity: {}) => mixed,
+      onPressHashtag ?: (text: string, activity: {}) => mixed,
+      sub ?: string,
+      icon ?: string,
+      activity: ActivityData,
+        /** Width of an image that's displayed, by default this is
+         * the width of the screen */
+        imageWidth ?: number,
+        /** Styling of the component */
+        styles ?: StyleSheetLike,
+        /** Handle errors in the render method in a custom way, by
+         * default this component logs the error in the console **/
+        componentDidCatch ?: (error: Error, info: {}, props: Props) => mixed,
 |};
 
 /**
@@ -182,7 +186,7 @@ export default class Activity extends React.Component<Props> {
           </Text>,
         );
       } else {
-        rendered.push(<Text style={styles.text}>{tokens[i] + ' '}</Text>);
+        rendered.push(<Text key={`og-token-${i}`} style={styles.text}>{tokens[i] + ' '}</Text>);
       }
     }
     return rendered;
@@ -206,32 +210,136 @@ export default class Activity extends React.Component<Props> {
       }
     }
     text = text.trim();
+    let tags = "Fitness Health WorkinOut";
 
     return (
       <View>
-        {Boolean(text) && (
-          <View style={styles.content}>
-            <Text style={styles.text}>
-              {this.renderText(text, this.props.activity)}
-            </Text>
-          </View>
-        )}
+        {
+          (attachments && attachments.images && attachments.images.length > 0) ?
+            (
+              <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={styles.content}>
+                  <ReadMore
+                    numberOfLines={3}
+                    renderTruncatedFooter={this._renderTruncatedFooter}
+                    renderRevealedFooter={this._renderRevealedFooter}
+                    onReady={this._handleTextReady}>
+                    <Text style={styles.text}>
+                      {this.renderText(text, this.props.activity)}
+                    </Text>
+                  </ReadMore>
+                </View>
 
-        {Boolean(image) && (
-          <Image
-            style={{ width, height: width }}
-            source={{ uri: image }}
-            resizeMethod="resize"
-          />
-        )}
+                {{ tags } &&
+                  (<View style={styles.content}>
+                    <Text style={styles.hashtag}>
+                      {tags}
+                    </Text>
+                  </View>)
+                }
 
-        {attachments && attachments.images && attachments.images.length > 0 && (
-          <Image
-            style={{ width, height: width }}
-            source={{ uri: attachments.images[0] }}
-            resizeMethod="resize"
-          />
-        )}
+                <ImageBackground
+                  {...this.props}
+                  style={{ width, height: width, justifyContent: "flex-end" }}
+                  source={{ uri: attachments.images[0] }}
+                  resizeMethod="resize"
+                >
+                  <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row", flex: 1, marginHorizontal: 20 }}>
+                      <LikeButton
+                        {...this.props}
+                        labelSingle="like"
+                        labelPlural="likes"
+                        activeImage={this.props.activeLikeImage}
+                        inactiveImage={this.props.inactiveLikeImageWhite}
+                        styles={{ text: { color: "white" } }}
+                      />
+                      <ReactionIcon
+                        labelSingle="comment"
+                        labelPlural="comments"
+                        icon={this.props.chatWhiteImage}
+                        counts={this.props.activity.reaction_counts}
+                        kind="comment"
+                        styles={{ text: { color: "white" } }}
+                      />
+                    </View>
+                    <View style={{ marginRight: 20 }}>
+                      <Text style={{
+                        color: "white",
+                        paddingTop: 5,
+                        paddingBottom: 5,
+                        lineHeight: 22,
+                        fontSize: 16,
+                      }}>
+                        {humanizeTimestamp(this.props.time)}
+                      </Text>
+                    </View>
+                  </View>
+                </ImageBackground>
+              </View>
+            ) : (
+              <View style={{ flex: 1, flexDirection: 'column' }}>
+                <View style={styles.content}>
+                  <ReadMore
+                    numberOfLines={3}
+                    renderTruncatedFooter={this._renderTruncatedFooter}
+                    renderRevealedFooter={this._renderRevealedFooter}
+                    onReady={this._handleTextReady}>
+                    <Text style={styles.text}>
+                      {this.renderText(text, this.props.activity)}
+                    </Text>
+                  </ReadMore>
+                </View>
+
+                {{ tags } &&
+                  (<View style={styles.content}>
+                    <Text style={styles.hashtag}>
+                      {tags}
+                    </Text>
+                  </View>)
+                }
+
+                <View style={{
+                  borderWidth: 1,
+                  borderColor: '#DADADA',
+                  marginVertical: 12,
+                  marginHorizontal: 20,
+                }} />
+
+                <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: "row", flex: 1, marginHorizontal: 20 }}>
+                    <LikeButton
+                      {...this.props}
+                      labelSingle="like"
+                      labelPlural="likes"
+                      activeImage={this.props.activeLikeImage}
+                      inactiveImage={this.props.inactiveLikeImageGray}
+                      styles={{ text: { color: "#DADADA" } }}
+                    />
+                    <ReactionIcon
+                      labelSingle="comment"
+                      labelPlural="comments"
+                      icon={this.props.chatGrayImage}
+                      counts={this.props.activity.reaction_counts}
+                      kind="comment"
+                      styles={{ text: { color: "#DADADA" } }}
+                    />
+                  </View>
+                  <View style={{ marginHorizontal: 20 }}>
+                    <Text style={{
+                      color: "#999999",
+                      paddingTop: 5,
+                      paddingBottom: 5,
+                      lineHeight: 22,
+                      fontSize: 16,
+                    }}>
+                      {humanizeTimestamp(this.props.time)}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )
+        }
         {attachments &&
           attachments.og &&
           Object.keys(attachments.og).length > 0 &&
@@ -250,6 +358,18 @@ export default class Activity extends React.Component<Props> {
       </View>
     );
   };
+
+  _renderTruncatedFooter = (handlePress) => (
+      <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
+        More
+      </Text>
+    )
+
+  _renderRevealedFooter = (handlePress) => (
+      <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
+        Less
+      </Text>
+    )
 
   renderFooter = () => null;
 

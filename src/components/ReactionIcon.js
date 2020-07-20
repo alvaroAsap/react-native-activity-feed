@@ -38,7 +38,7 @@ type Props = {|
 |} & Streami18Ctx;
 
 function defaultLabelFunction(count, props) {
-  const { labelSingle, labelPlural, labelFunction, kind, t } = props;
+  const { labelSingle, labelPlural, labelFunction, kind, t, reaction } = props;
   if (labelFunction) {
     return labelFunction({
       count,
@@ -50,7 +50,7 @@ function defaultLabelFunction(count, props) {
   let label;
 
   if (labelSingle && labelPlural) {
-    label = count === 1 ? `1 ${labelSingle}` : `${count} ${labelPlural}`;
+    label = count === 1 ? `1` : `${count}`;
   }
 
   if (!labelSingle || !labelPlural) {
@@ -100,7 +100,9 @@ const ReactionIcon = withTranslationContext((props: Props) => {
     <TouchableOpacity style={styles.container} onPress={props.onPress}>
       <Image source={props.icon} style={[styles.image, dimensions]} />
       {count != null ? (
-        <Text style={styles.text}>{defaultLabelFunction(count, props)}</Text>
+        <Text style={props.reaction ? styles.textActive : styles.text}>
+          {defaultLabelFunction(count, props)}
+        </Text>
       ) : null}
     </TouchableOpacity>
   );
