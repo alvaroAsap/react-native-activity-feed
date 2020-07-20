@@ -227,7 +227,7 @@ export const styles = {
       backgroundColor: 'white',
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: 12,
+      paddingHorizontal: 10,
     },
     textInput: {
       flex: 1,
@@ -262,7 +262,7 @@ export const styles = {
       paddingTop: 15,
       paddingBottom: 15,
       borderBottomColor: '#F1F1F1',
-      borderBottomWidth: 10,
+      borderBottomWidth: 12,
       backgroundColor: "rgba(255, 255, 255, 0.9)",
     },
     header: {
