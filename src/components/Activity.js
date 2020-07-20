@@ -186,7 +186,7 @@ export default class Activity extends React.Component<Props> {
           </Text>,
         );
       } else {
-        rendered.push(<Text style={styles.text}>{tokens[i] + ' '}</Text>);
+        rendered.push(<Text key={`og-token-${i}`} style={styles.text}>{tokens[i] + ' '}</Text>);
       }
     }
     return rendered;
@@ -358,6 +358,18 @@ export default class Activity extends React.Component<Props> {
       </View>
     );
   };
+
+  _renderTruncatedFooter = (handlePress) => (
+      <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
+        More
+      </Text>
+    )
+
+  _renderRevealedFooter = (handlePress) => (
+      <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
+        Less
+      </Text>
+    )
 
   renderFooter = () => null;
 

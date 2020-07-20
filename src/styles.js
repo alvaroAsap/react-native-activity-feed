@@ -227,7 +227,7 @@ export const styles = {
       backgroundColor: 'white',
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: 10,
+      paddingHorizontal: 12,
     },
     textInput: {
       flex: 1,
