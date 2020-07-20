@@ -47,9 +47,9 @@ class CommentItem extends React.Component<Props> {
           <Text>
             <Text style={styles.commentAuthor}>{comment.user.data.name} </Text>
             <Text style={styles.commentContent}>{comment.data.text} </Text>
-            <Text style={styles.commentTime}>
+            {/* <Text style={styles.commentTime}>
               {humanizeTimestamp(comment.created_at, tDateTimeParser)}
-            </Text>
+            </Text> */}
           </Text>
         </View>
         {smartRender(this.props.Footer)}

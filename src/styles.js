@@ -446,11 +446,18 @@ export const styles = {
       flexWrap: 'wrap',
     },
     commentAuthor: {
-      fontWeight: '700',
-      fontSize: 14,
+      fontFamily: "Roboto-Bold",
+      fontStyle: "normal",
+      fontWeight: "500",
+      fontSize: 17,
+      lineHeight: 22,
     },
     commentContent: {
-      fontSize: 14,
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: 16,
+      lineHeight: 22,
     },
     commentTime: {
       fontSize: 14,
