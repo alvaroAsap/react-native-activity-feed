@@ -27,6 +27,9 @@ type Props = {|
   onToggleChildReaction?: ToggleChildReactionCallbackFunction,
   /** Styling of the button */
   styles?: StyleSheetLike,
+  /** Active and inactive like icons directories */
+  activeImage: string,
+  inactiveImage: string,
 |};
 
 /**
@@ -36,6 +39,8 @@ type Props = {|
 export default class LikeButton extends React.Component<Props> {
   static defaultProps = {
     reactionKind: 'like',
+    activeImage: '../images/icon/heart.png',
+    inactiveImage: '../images/icon/heart-outline.png',
   };
   _onPress = () => {
     const {
@@ -71,8 +76,10 @@ export default class LikeButton extends React.Component<Props> {
         own_reactions={own_reactions}
         kind={reactionKind}
         onPress={this._onPress}
-        activeIcon={require('../images/icons/heart.png')}
-        inactiveIcon={require('../images/icons/heart-outline.png')}
+        activeIcon={this.props.activeImage}
+        inactiveIcon={this.props.inactiveImage}
+        labelSingle={this.props.labelSingle}
+        labelPlural={this.props.labelPlural}
       />
     );
   }

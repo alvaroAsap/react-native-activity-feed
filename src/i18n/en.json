@@ -16,5 +16,6 @@
   "{{ countReposts }} reposts": "{{ countReposts }} reposts",
   "Tags": "Tags",
   "Add \"Fitness\" or \"Family\"": "Add \"Fitness\" or \"Family\"",
-  "What are your thoughts?": "What are your thoughts?"
+  "What are your thoughts?": "What are your thoughts?",
+  "Comment": "Comment"
 }

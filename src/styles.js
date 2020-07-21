@@ -33,7 +33,7 @@ export const styles = {
   }),
   userBar: StyleSheet.create({
     container: {
-      width: 100 + '%',
+      marginHorizontal: 20,
       flexDirection: 'row',
       alignItems: 'center',
     },
@@ -41,9 +41,13 @@ export const styles = {
       flex: 1,
     },
     username: {
-      fontSize: 17,
-      fontWeight: '300',
       marginBottom: 4,
+      fontFamily: "Roboto-Bold",
+      fontStyle: "normal",
+      fontWeight: '500',
+      fontSize: 18,
+      lineHeight: 22,
+      color: "#151522",
     },
     subtitle: {
       fontSize: 15,
@@ -230,13 +234,16 @@ export const styles = {
   commentBox: StyleSheet.create({
     container: {
       flex: 1,
-      shadowOffset: { width: 0, height: -3 },
-      shadowColor: 'black',
-      shadowOpacity: 0.1,
+      //shadowOffset: { width: 0, height: -3 },
+      //shadowColor: 'black',
+      //shadowOpacity: 0.1,
+      borderWidth: 1,
+      borderRadius: 2,
+      borderColor: 'rgba(153, 153, 153, 0.3)',
       backgroundColor: 'white',
       flexDirection: 'row',
       alignItems: 'center',
-      padding: 15,
+      paddingHorizontal: 10,
     },
     textInput: {
       flex: 1,
@@ -270,29 +277,42 @@ export const styles = {
     container: {
       paddingTop: 15,
       paddingBottom: 15,
-      borderBottomColor: 'rgba(0,0,0,0.1)',
-      borderBottomWidth: 1,
+      borderBottomColor: '#F1F1F1',
+      borderBottomWidth: 12,
+      backgroundColor: "rgba(255, 255, 255, 0.9)",
     },
     header: {
-      padding: 15,
+      //padding: 15,
+      paddingVertical: 15,
     },
     content: {
       paddingBottom: 15,
-      paddingLeft: 15,
-      paddingRight: 15,
+      marginHorizontal: 20,
+      // paddingLeft: 15,
+      // paddingRight: 15,
     },
     mention: {
       color: '#0076FF',
       fontWeight: '700',
     },
     hashtag: {
-      color: '#0076FF',
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: 16,
+      lineHeight: 22,
+      color: "#008DFF",
     },
     url: {
       color: '#666',
     },
     text: {
-      color: '#000',
+      fontFamily: "Roboto",
+      fontStyle: "normal",
+      fontWeight: "normal",
+      fontSize: 16,
+      lineHeight: 22,
+      color: "#333333",
     },
   }),
   button: StyleSheet.create({
@@ -319,15 +339,18 @@ export const styles = {
       alignItems: 'center',
       paddingTop: 5,
       paddingBottom: 5,
-      marginLeft: 15,
     },
     text: {
-      fontWeight: '700',
+      fontFamily: "Teko-Bold",
+      fontStyle: "normal",
+      fontWeight: '600',
+      fontSize: 20,
+      lineHeight: 34,
     },
     image: {
       marginRight: 5,
-      width: 24,
-      height: 24,
+      width: 19.62,
+      height: 18,
     },
   }),
   pagerBlock: StyleSheet.create({
@@ -358,13 +381,23 @@ export const styles = {
     },
     image: {
       marginRight: 5,
-      height: 24,
-      width: 24,
+      height: 20,
+      width: 20,
     },
     text: {
-      fontWeight: '700',
-      opacity: 1,
-      fontSize: 14,
+      fontFamily: "Teko",
+      fontStyle: "normal",
+      fontWeight: '600',
+      fontSize: 20,
+      lineHeight: 34,
+    },
+    textActive: {
+      fontFamily: "Teko",
+      color: "#008DFF",
+      fontStyle: "normal",
+      fontWeight: '600',
+      fontSize: 20,
+      lineHeight: 34,
     },
   }),
   userCard: StyleSheet.create({
@@ -461,7 +494,7 @@ export const styles = {
   }),
 };
 
-const depthOf = function(object) {
+const depthOf = function (object) {
   let level = 1;
   let key;
   for (key in object) {
