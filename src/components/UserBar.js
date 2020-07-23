@@ -57,7 +57,7 @@ const UserBar = withTranslationContext(
       location: {
         fontFamily: "Roboto",
         fontStyle: "normal",
-        fontSize: 18,
+        fontSize: 14,
         lineHeight: 22,
         color: 'gray',
       }
