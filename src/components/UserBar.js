@@ -81,7 +81,7 @@ const UserBar = withTranslationContext(
 
         <View style={styles.content}>
           <View style={customStyles.usernameLocation}>
-            <Text style={styles.username}>{username}{" "}</Text>
+            <Text style={styles.username}>{username}</Text>
             <Text style={customStyles.location}>{location}</Text>
           </View>
 
