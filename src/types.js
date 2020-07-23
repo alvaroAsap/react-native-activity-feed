@@ -110,6 +110,7 @@ export type CustomActivityData = {
     og?: ?OgData,
     files?: Array<FileInfo>,
   },
+  tags?: Array<string>,
 };
 
 export type CustomActivityArgData = ActivityArgData<{}, CustomActivityData>;

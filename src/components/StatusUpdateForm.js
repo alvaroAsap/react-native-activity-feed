@@ -252,6 +252,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _text = () => this.state.textFromInput.trim();
+  _tags = () => this.state.tagsFromInput.split(',').map(item => item.trim());
 
   _object = () => {
     if (this.state.imageUrl) {
@@ -263,6 +264,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _canSubmit = () => Boolean(this._object() && this.state.textFromInput.length <= this.props.textMaxLength);
 
   async addActivity() {
+
     const activity: CustomActivityArgData = {
       actor: this.props.client.currentUser,
       verb: this.props.activityVerb,
@@ -270,6 +272,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     };
 
     const attachments = {};
+    const tags = this._tags();
 
     if (this.state.og && Object.keys(this.state.og).length > 0) {
       attachments.og = this.state.og;
@@ -282,6 +285,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
     if (Object.keys(attachments).length > 0) {
       activity.attachments = attachments;
+    }
+
+    if (tags.length > 0){
+      activity.tags = tags;
     }
 
     const modifiedActivity = this.props.modifyActivityData(activity);
@@ -437,7 +444,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
           <View style={styles.newPostContainer}>
             <View>
               <Text style={[styles.textInputTitle]}>{t('What are your thoughts?')}</Text>
-              <View style={[styles.textInput]}>
+              <View style={[styles.textInput, this.state.textFromInput.length > this.props.textMaxLength ? {borderColor: '#EB5757'} : {}]}>
                 <TextInput
                   ref={this.textInputRef}
                   style={[styles.largeInputField, this.props.fullscreen ? { flex: 1 } : {}]}
@@ -454,8 +461,8 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                   onFocus={() => this.setState({ focused: true })}
                   {...this.props.textInputProps}
                 />
-                <Text style={[styles.textInputCountLimit, this.state.textFromInput.length > this.props.textMaxLength ? {color: 'red'} : {}]}>{this.state.textFromInput.length}/{this.props.textMaxLength}</Text>
               </View>
+              <Text style={[styles.textInputCountLimit, this.state.textFromInput.length > this.props.textMaxLength ? {color: '#EB5757'} : {}]}>{this.state.textFromInput.length}/{this.props.textMaxLength}</Text>
             </View>
             <View style={{marginBottom: 20}}>
               <Text style={[styles.textInputTitle]}>{t('Tags')}</Text>
@@ -499,6 +506,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                           : styles.image
                       }
                       resizeMethod="resize"
+                      resizeMode="cover"
                     />
                     <View style={styles.imageOverlay}>
                       {this.state.imageState === ImageState.UPLOADING ? (

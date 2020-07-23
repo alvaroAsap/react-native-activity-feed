@@ -191,6 +191,15 @@ export default class Activity extends React.Component<Props> {
     }
     return rendered;
   };
+  
+  renderTags = (tags: Array<string>, activity: ActivityData) => {
+    if(tags){
+      const styles = buildStylesheet('activity', this.props.styles);
+      const render = tags.map((t, i) => <Text key={`${activity.id}-${i}`} style={styles.hashtag}>{t}</Text>)
+      return (<View style={styles.tagsContent}>{render}</View>);
+    }
+    return null;
+  }
 
   renderContent = () => {
     // return null;
@@ -198,7 +207,7 @@ export default class Activity extends React.Component<Props> {
       this.props.imageWidth != null
         ? this.props.imageWidth
         : Dimensions.get('window').width;
-    const { object, image, attachments } = this.props.activity;
+    const { object, image, attachments, tags } = this.props.activity;
     let { text } = this.props.activity;
     const styles = buildStylesheet('activity', this.props.styles);
     const { Card } = this.props;
@@ -210,7 +219,6 @@ export default class Activity extends React.Component<Props> {
       }
     }
     text = text.trim();
-    let tags = "Fitness Health WorkinOut";
 
     return (
       <View>
@@ -230,13 +238,7 @@ export default class Activity extends React.Component<Props> {
                   </ReadMore>
                 </View>
 
-                {{ tags } &&
-                  (<View style={styles.content}>
-                    <Text style={styles.hashtag}>
-                      {tags}
-                    </Text>
-                  </View>)
-                }
+                {this.renderTags(tags, this.props.activity)}
 
                 <ImageBackground
                   {...this.props}
@@ -290,14 +292,8 @@ export default class Activity extends React.Component<Props> {
                     </Text>
                   </ReadMore>
                 </View>
-
-                {{ tags } &&
-                  (<View style={styles.content}>
-                    <Text style={styles.hashtag}>
-                      {tags}
-                    </Text>
-                  </View>)
-                }
+                
+                {this.renderTags(tags, this.props.activity)}
 
                 <View style={{
                   borderWidth: 1,

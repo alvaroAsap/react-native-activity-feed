@@ -11,6 +11,8 @@
 The official React Native integration library for Stream, a web service for
 building scalable newsfeeds and activity streams.
 
+### Forked from version 0.9.1
+
 ## TL;DR built-in components for social networks and regular apps
 
 - Flat feeds

@@ -98,6 +98,9 @@ export const styles = {
       position: 'relative',
       flex: 1,
       backgroundColor: '#ffffff',
+      borderRadius: 2,
+      borderColor: '#999999',
+      borderWidth: 1,
     },
     textInputTitle: {
       paddingBottom: 10
@@ -113,16 +116,21 @@ export const styles = {
       backgroundColor: '#ffffff',
     },
     inputField: {
+      fontFamily: "Roboto",
       borderRadius: 2,
       borderColor: '#999999',
       borderWidth: 1,
       padding: 15
     },
     largeInputField: {
-      borderRadius: 2,
-      borderColor: '#999999',
-      borderWidth: 1,
-      padding: 15,
+      fontFamily: "Roboto",
+      fontSize: 16,
+      // borderRadius: 2,
+      // borderColor: '#999999',
+      // borderWidth: 1,
+      lineHeight: 22,
+      marginVertical: 5,
+      paddingHorizontal: 15,
       height: 150
     },
     actionPanel: {
@@ -291,6 +299,11 @@ export const styles = {
       // paddingLeft: 15,
       // paddingRight: 15,
     },
+    tagsContent: {
+      paddingBottom: 15,
+      marginHorizontal: 14,
+      flexDirection: 'row',
+    },
     mention: {
       color: '#0076FF',
       fontWeight: '700',
@@ -302,6 +315,7 @@ export const styles = {
       fontSize: 16,
       lineHeight: 22,
       color: "#008DFF",
+      paddingHorizontal: 6,
     },
     url: {
       color: '#666',
