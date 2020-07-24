@@ -52,7 +52,7 @@ const UserBar = withTranslationContext(
 
     const customStyles = StyleSheet.create({
       usernameLocation: {
-        flexDirection: "row"
+        flexDirection: "column"
       },
       location: {
         fontFamily: "Roboto",
