@@ -89,6 +89,7 @@ class CommentBox extends React.Component<Props, State> {
           onSubmitEditing={(event) => {
             this.setState({ text: '' });
             this.postComment(event);
+            this.props.onComment();
           }}
 
           placeholder={t('Comment')}
