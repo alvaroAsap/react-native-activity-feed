@@ -85,6 +85,7 @@ class CommentBox extends React.Component<Props, State> {
           value={this.state.text}
           style={styles.textInput}
           underlineColorAndroid="transparent"
+          multiline={true}
           onChangeText={(text) => this.setState({ text })}
           onSubmitEditing={(event) => {
             this.setState({ text: '' });
