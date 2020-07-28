@@ -25,6 +25,8 @@ type Props = {|
   labelSingle?: string,
   /** The label to display if the count is more than one (e.g "likes") */
   labelPlural?: string,
+  /** To disable the amount of reactions next to the icon */
+  disableText?: boolean
   /** Styling of the icon */
   styles?: StyleSheetLike,
   /** A function that returns either the string to display next to the icon or
