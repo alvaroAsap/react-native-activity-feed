@@ -83,8 +83,9 @@ class CommentBox extends React.Component<Props, State> {
         <Image source={this.props.reactionImage} />
         <TextInput
           value={this.state.text}
-          style={styles.textInput}
           blurOnSubmit={true}
+          style={styles.textInput}
+          autoGrow={true}
           underlineColorAndroid="transparent"
           multiline={true}
           onChangeText={(text) => this.setState({ text })}
@@ -95,7 +96,6 @@ class CommentBox extends React.Component<Props, State> {
               this.props.onComment();
             }
           }}
-
           placeholder={t('Comment')}
           returnKeyType="send"
           {...textInputProps}
