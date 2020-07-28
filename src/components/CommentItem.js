@@ -42,14 +42,14 @@ class CommentItem extends React.Component<Props> {
     const styles = buildStylesheet('commentItem', this.props.styles || {});
     return (
       <View style={styles.container}>
-        <Avatar source={comment.user.data.profileImage} size={25} noShadow />
+        <Avatar source={comment.user.data.profileImage} size={35} noShadow />
         <View style={styles.commentText}>
           <Text>
             <Text style={styles.commentAuthor}>{comment.user.data.name} </Text>
             <Text style={styles.commentContent}>{comment.data.text} </Text>
-            <Text style={styles.commentTime}>
+            {/* <Text style={styles.commentTime}>
               {humanizeTimestamp(comment.created_at, tDateTimeParser)}
-            </Text>
+            </Text> */}
           </Text>
         </View>
         {smartRender(this.props.Footer)}
