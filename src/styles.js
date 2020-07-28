@@ -369,14 +369,14 @@ export const styles = {
       width: 20,
     },
     text: {
-      fontFamily: "Teko",
+      fontFamily: "Teko-Bold",
       fontStyle: "normal",
       fontWeight: '600',
       fontSize: 20,
       lineHeight: 34,
     },
     textActive: {
-      fontFamily: "Teko",
+      fontFamily: "Teko-Bold",
       color: "#008DFF",
       fontStyle: "normal",
       fontWeight: '600',
