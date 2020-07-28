@@ -1,5 +1,5 @@
 // @flow
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import _ from 'lodash';
 
 export const styles = {
@@ -120,18 +120,17 @@ export const styles = {
       borderRadius: 2,
       borderColor: '#999999',
       borderWidth: 1,
-      padding: 15
+      paddingHorizontal: 15,
+      paddingVertical: Platform.OS === "ios" ? 15 : 10
     },
     largeInputField: {
       fontFamily: "Roboto",
       fontSize: 16,
-      // borderRadius: 2,
-      // borderColor: '#999999',
-      // borderWidth: 1,
       lineHeight: 22,
-      marginVertical: 5,
+      marginVertical: Platform.OS === "ios" ? 5 : 0,
       paddingHorizontal: 15,
-      height: 150
+      height: 150,
+      textAlignVertical: 'top'
     },
     actionPanel: {
       justifyContent: 'center',
