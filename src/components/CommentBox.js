@@ -84,6 +84,7 @@ class CommentBox extends React.Component<Props, State> {
         <TextInput
           value={this.state.text}
           style={styles.textInput}
+          blurOnSubmit={true}
           underlineColorAndroid="transparent"
           multiline={true}
           onChangeText={(text) => this.setState({ text })}
