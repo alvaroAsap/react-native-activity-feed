@@ -1,5 +1,5 @@
 // @flow
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import _ from 'lodash';
 
 export const styles = {
@@ -82,7 +82,6 @@ export const styles = {
       shadowColor: 'black',
       shadowOpacity: 0.1,
       backgroundColor: '#f6f6f6',
-      height: 80,
     },
     containerFocused: {
       height: 120,
@@ -93,24 +92,50 @@ export const styles = {
     newPostContainer: {
       backgroundColor: '#ffffff',
       padding: 15,
-      flexDirection: 'row',
       flex: 1,
     },
     textInput: {
       position: 'relative',
-      // borderWidth: 1,
-      // borderColor: 'red',
-      padding: 10,
-      marginRight: 10,
       flex: 1,
-      backgroundColor: '#f8f8f8',
-      borderRadius: 10,
+      backgroundColor: '#ffffff',
+      borderRadius: 2,
+      borderColor: '#999999',
+      borderWidth: 1,
+    },
+    textInputTitle: {
+      paddingBottom: 10
+    },
+    textInputCountLimit: {
+      justifyContent: 'flex-end',
+      flex: 1,
+      textAlign: 'right'
+    },
+    singleTextInput: {
+      position: 'relative',
+      flex: 1,
+      backgroundColor: '#ffffff',
+    },
+    inputField: {
+      fontFamily: "Roboto",
+      borderRadius: 2,
+      borderColor: '#999999',
+      borderWidth: 1,
+      paddingHorizontal: 15,
+      paddingVertical: Platform.OS === "ios" ? 15 : 10
+    },
+    largeInputField: {
+      fontFamily: "Roboto",
+      fontSize: 16,
+      lineHeight: 22,
+      marginVertical: Platform.OS === "ios" ? 5 : 0,
+      paddingHorizontal: 15,
+      height: 150,
+      textAlignVertical: 'top'
     },
     actionPanel: {
-      justifyContent: 'space-between',
+      justifyContent: 'center',
     },
     actionPanelBlur: {
-      flexDirection: 'row',
       alignItems: 'center',
     },
     accessory: {
@@ -123,15 +148,13 @@ export const styles = {
       alignItems: 'center',
     },
     imageContainer: {
-      width: 30,
-      height: 30,
-      overflow: 'hidden',
+      flex: 1,
       borderRadius: 4,
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 20,
     },
     imageContainerBlur: {
-      marginRight: 8,
     },
     imageOverlay: {
       position: 'absolute',
@@ -275,6 +298,11 @@ export const styles = {
       // paddingLeft: 15,
       // paddingRight: 15,
     },
+    tagsContent: {
+      paddingBottom: 15,
+      marginHorizontal: 14,
+      flexDirection: 'row',
+    },
     mention: {
       color: '#0076FF',
       fontWeight: '700',
@@ -286,6 +314,7 @@ export const styles = {
       fontSize: 16,
       lineHeight: 22,
       color: "#008DFF",
+      paddingHorizontal: 6,
     },
     url: {
       color: '#666',

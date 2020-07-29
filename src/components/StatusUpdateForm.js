@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import React, { Children, isValidElement, cloneElement } from 'react';
 import {
   View,
   Image,
@@ -8,6 +8,8 @@ import {
   ActivityIndicator,
   Platform,
   Keyboard,
+  Text,
+  ScrollView
 } from 'react-native';
 import { StreamApp, withTranslationContext } from '../Context';
 import UrlPreview from './UrlPreview';
@@ -87,6 +89,12 @@ type Props = {|
   verticalOffset: number,
   /** Any props the React Native TextInput accepts */
   textInputProps?: {},
+  /** An Element to draw the submit button */
+  submitButton?: Element,
+  /** An Element to draw the upload image image */
+  uploadImageImage?: Element,
+  /** Post max length */
+  textMaxLength: number,
 |} & Streami18Ctx;
 
 type State = {|
@@ -97,6 +105,7 @@ type State = {|
   ogScraping: boolean,
   ogLink: ?string,
   textFromInput: string,
+  tagsFromInput: string,
   clearInput: boolean,
   focused: boolean,
   urls: Array<string>,
@@ -124,6 +133,7 @@ class StatusUpdateForm extends React.Component<Props> {
         textStyle: { fontSize: 14 },
       },
     },
+    textMaxLength: 2000,
   };
 
   render() {
@@ -144,9 +154,7 @@ class StatusUpdateForm extends React.Component<Props> {
               return (
                 <React.Fragment>
                   <View style={{ height: this.props.height }} />
-                  <KeyboardAccessory verticalOffset={this.props.verticalOffset}>
-                    <StatusUpdateFormInner {...this.props} {...appCtx} />
-                  </KeyboardAccessory>
+                  <StatusUpdateFormInner {...this.props} {...appCtx} />
                 </React.Fragment>
               );
             } else {
@@ -164,6 +172,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   _handleOgDebounced: (string) => mixed;
 
   textInputRef = React.createRef();
+  tagsInputRef = React.createRef();
 
   state = {
     image: null,
@@ -173,6 +182,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     ogScraping: false,
     ogLink: null,
     textFromInput: '',
+    tagsFromInput: '',
     clearInput: false,
     focused: false,
     urls: [],
@@ -242,6 +252,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   };
 
   _text = () => this.state.textFromInput.trim();
+  _tags = () => this.state.tagsFromInput.split(',').map(item => item.trim());
 
   _object = () => {
     if (this.state.imageUrl) {
@@ -250,9 +261,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     return this._text();
   };
 
-  _canSubmit = () => Boolean(this._object());
+  _canSubmit = () => Boolean(this._object() && this.state.textFromInput.length <= this.props.textMaxLength);
 
   async addActivity() {
+
     const activity: CustomActivityArgData = {
       actor: this.props.client.currentUser,
       verb: this.props.activityVerb,
@@ -260,6 +272,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     };
 
     const attachments = {};
+    const tags = this._tags();
 
     if (this.state.og && Object.keys(this.state.og).length > 0) {
       attachments.og = this.state.og;
@@ -272,6 +285,10 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
     if (Object.keys(attachments).length > 0) {
       activity.attachments = attachments;
+    }
+
+    if (tags.length > 0){
+      activity.tags = tags;
     }
 
     const modifiedActivity = this.props.modifyActivityData(activity);
@@ -364,6 +381,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       ogScraping: false,
       ogLink: null,
       textFromInput: '',
+      tagsFromInput: '',
       focused: false,
       urls: [],
       dismissedUrls: [],
@@ -376,14 +394,39 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
   render() {
     const { t } = this.props;
     const styles = buildStylesheet('statusUpdateForm', this.props.styles);
+
+    const submitButtonWithProps = this.props.submitButton ? 
+      Children.map(this.props.submitButton, child => {
+        // Checking isValidElement is the safe way and avoids a TS error too.
+        if (isValidElement(child)) {
+          return cloneElement(child, {
+            onPress: this.onSubmitForm,
+            disabled: !this._canSubmit()
+          })
+        }
+        return child;
+      }) : 
+      <TouchableOpacity
+        title={t('Pick an image from camera roll')}
+        onPress={this.onSubmitForm}
+        disabled={!this._canSubmit()}
+      >
+        <Image
+          source={
+            this._canSubmit()
+              ? require('../images/icons/send.png')
+              : require('../images/icons/send-disabled.png')
+          }
+          style={styles.submitImage}
+        />
+      </TouchableOpacity>
+    ;
+
     return (
-      <View style={[this.props.fullscreen ? { flex: 1 } : {}]}>
+      <ScrollView style={{flex:1, backgroundColor: "#ffffff"}}>
         <View
           style={[
             styles.container,
-            this.props.height ? { height: this.props.height } : { height: 80 },
-            this.state.focused ? styles.containerFocused : {},
-            this.state.og ? styles.containerFocusedOg : {},
             this.props.fullscreen ? { flex: 1 } : {},
           ]}
         >
@@ -399,25 +442,48 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
           )}
 
           <View style={styles.newPostContainer}>
-            <View style={[styles.textInput]}>
-              <TextInput
-                ref={this.textInputRef}
-                style={this.props.fullscreen ? { flex: 1 } : {}}
-                multiline
-                onChangeText={(text) => {
-                  this.setState({ textFromInput: text });
-                  this._handleOgDebounced(text);
-                }}
-                value={this.state.textFromInput}
-                autocorrect={false}
-                placeholder={t('Type your post...')}
-                underlineColorAndroid="transparent"
-                onBlur={() => this.setState({ focused: false })}
-                onFocus={() => this.setState({ focused: true })}
-                {...this.props.textInputProps}
-              />
+            <View>
+              <Text style={[styles.textInputTitle]}>{t('What are your thoughts?')}</Text>
+              <View style={[styles.textInput, this.state.textFromInput.length > this.props.textMaxLength ? {borderColor: '#EB5757'} : {}]}>
+                <TextInput
+                  ref={this.textInputRef}
+                  style={[styles.largeInputField, this.props.fullscreen ? { flex: 1 } : {}]}
+                  multiline
+                  onChangeText={(text) => {
+                    this.setState({ textFromInput: text });
+                    this._handleOgDebounced(text);
+                  }}
+                  value={this.state.textFromInput}
+                  autocorrect={false}
+                  placeholder={t('Type your post...')}
+                  underlineColorAndroid="transparent"
+                  onBlur={() => this.setState({ focused: false })}
+                  onFocus={() => this.setState({ focused: true })}
+                  {...this.props.textInputProps}
+                />
+              </View>
+              <Text style={[styles.textInputCountLimit, this.state.textFromInput.length > this.props.textMaxLength ? {color: '#EB5757'} : {}]}>{this.state.textFromInput.length}/{this.props.textMaxLength}</Text>
             </View>
-
+            <View style={{marginBottom: 20}}>
+              <Text style={[styles.textInputTitle]}>{t('Tags')}</Text>
+              <View style={[styles.singleTextInput]}>
+                <TextInput
+                  ref={this.tagsInputRef}
+                  style={[styles.inputField, this.props.fullscreen ? { flex: 1 } : {}]}
+                  onChangeText={(text) => {
+                    this.setState({ tagsFromInput: text });
+                    this._handleOgDebounced(text);
+                  }}
+                  value={this.state.tagsFromInput}
+                  autocorrect={false}
+                  placeholder={t('Add "Fitness" or "Family"')}
+                  underlineColorAndroid="transparent"
+                  onBlur={() => this.setState({ focused: false })}
+                  onFocus={() => this.setState({ focused: true })}
+                  {...this.props.textInputProps}
+                />
+              </View>
+            </View>
             <View
               style={[
                 styles.actionPanel,
@@ -440,6 +506,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                           : styles.image
                       }
                       resizeMethod="resize"
+                      resizeMode="cover"
                     />
                     <View style={styles.imageOverlay}>
                       {this.state.imageState === ImageState.UPLOADING ? (
@@ -459,32 +526,21 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
                     title={t('Pick an image from camera roll')}
                     onPress={this._pickImage}
                   >
-                    <Image
+                    {this.props.uploadImageImage ? this.props.uploadImageImage  : <Image
                       source={require('../images/icons/gallery.png')}
                       style={{ width: 24, height: 24 }}
-                    />
+                    />}
                   </TouchableOpacity>
                 )}
               </View>
-              <TouchableOpacity
-                title={t('Pick an image from camera roll')}
-                onPress={this.onSubmitForm}
-                disabled={!this._canSubmit()}
-              >
-                <Image
-                  source={
-                    this._canSubmit()
-                      ? require('../images/icons/send.png')
-                      : require('../images/icons/send-disabled.png')
-                  }
-                  style={styles.submitImage}
-                />
-              </TouchableOpacity>
+              
+              {submitButtonWithProps}
+
             </View>
           </View>
         </View>
         {this.props.fullscreen ? <KeyboardSpacer /> : null}
-      </View>
+      </ScrollView>
     );
   }
 }
