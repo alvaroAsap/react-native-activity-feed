@@ -193,7 +193,7 @@ export default class Activity extends React.Component<Props> {
   };
   
   renderTags = (tags: Array<string>, activity: ActivityData) => {
-    if(tags){
+    if (tags && tags[0] !== "" && tags.length >= 1) {
       const styles = buildStylesheet('activity', this.props.styles);
       const render = tags.map((t, i) => <Text key={`${activity.id}-${i}`} style={styles.hashtag}>{t}</Text>)
       return (<View style={styles.tagsContent}>{render}</View>);
