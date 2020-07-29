@@ -263,6 +263,7 @@ export default class Activity extends React.Component<Props> {
                         counts={this.props.activity.reaction_counts}
                         kind="comment"
                         styles={{ text: { color: "white" } }}
+                        onPress={this.props.onShowComments}
                       />
                     </View>
                     <View style={{ marginRight: 20 }}>
@@ -319,6 +320,7 @@ export default class Activity extends React.Component<Props> {
                       counts={this.props.activity.reaction_counts}
                       kind="comment"
                       styles={{ text: { color: "#DADADA" } }}
+                      onPress={this.props.onShowComments}
                     />
                   </View>
                   <View style={{ marginHorizontal: 20 }}>

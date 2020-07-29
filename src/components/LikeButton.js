@@ -80,6 +80,7 @@ export default class LikeButton extends React.Component<Props> {
         inactiveIcon={this.props.inactiveImage}
         labelSingle={this.props.labelSingle}
         labelPlural={this.props.labelPlural}
+        disableText={this.props.disableText}
       />
     );
   }

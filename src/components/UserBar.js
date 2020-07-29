@@ -52,12 +52,12 @@ const UserBar = withTranslationContext(
 
     const customStyles = StyleSheet.create({
       usernameLocation: {
-        flexDirection: "row"
+        flexDirection: "column"
       },
       location: {
         fontFamily: "Roboto",
         fontStyle: "normal",
-        fontSize: 18,
+        fontSize: 14,
         lineHeight: 22,
         color: 'gray',
       }
@@ -81,7 +81,7 @@ const UserBar = withTranslationContext(
 
         <View style={styles.content}>
           <View style={customStyles.usernameLocation}>
-            <Text style={styles.username}>{username}{" "}</Text>
+            <Text style={styles.username}>{username}</Text>
             <Text style={customStyles.location}>{location}</Text>
           </View>
 

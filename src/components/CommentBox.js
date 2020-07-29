@@ -83,14 +83,19 @@ class CommentBox extends React.Component<Props, State> {
         <Image source={this.props.reactionImage} />
         <TextInput
           value={this.state.text}
+          blurOnSubmit={true}
           style={styles.textInput}
+          autoGrow={true}
           underlineColorAndroid="transparent"
+          multiline={true}
           onChangeText={(text) => this.setState({ text })}
           onSubmitEditing={(event) => {
             this.setState({ text: '' });
             this.postComment(event);
+            if (this.props.onComment) {
+              this.props.onComment();
+            }
           }}
-
           placeholder={t('Comment')}
           returnKeyType="send"
           {...textInputProps}
