@@ -41,7 +41,7 @@ export const styles = {
       flex: 1,
     },
     username: {
-      marginBottom: 4,
+      marginBottom: -5,
       fontFamily: "Roboto-Bold",
       fontStyle: "normal",
       fontWeight: '500',
