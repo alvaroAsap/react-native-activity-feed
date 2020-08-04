@@ -166,12 +166,10 @@ export const styles = {
       backgroundColor: 'rgba(0,0,0,0.4)',
     },
     image: {
-      // position: 'absolute',
       width: 30,
       height: 30,
     },
     image_loading: {
-      position: 'absolute',
       width: 30,
       height: 30,
       opacity: 0.5,
