@@ -269,6 +269,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       actor: this.props.client.currentUser,
       verb: this.props.activityVerb,
       object: this._object(),
+      to: [`global:global`]
     };
 
     const attachments = {};
