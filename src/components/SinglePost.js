@@ -57,7 +57,7 @@ export default class SinglePost extends React.Component<Props> {
           feedGroup={this.props.feedGroup}
           userId={this.props.userId}
           options={{
-            withRecentReactions: true,
+            // withRecentReactions: true,
             ...this.props.options,
           }}
           Activity={this.props.Activity}
@@ -76,6 +76,7 @@ export default class SinglePost extends React.Component<Props> {
           Footer={this.props.Footer}
           setListRef={this.props.setListRef}
           noPagination
+          reverseOrder
         />
       </React.Fragment>
     );
