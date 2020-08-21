@@ -103,16 +103,18 @@ class CommentBox extends React.Component<Props, State> {
         {this.props.coin}
       </View>
     );
-    if (noKeyboardAccessory) {
-      return input;
-    }
 
     return (
       <React.Fragment>
         <View style={{ height: this.props.height }} />
-        <KeyboardAccessory verticalOffset={this.props.verticalOffset} backgroundColor='rgba(255, 255, 255, 0.9)'>
-          {input}
-        </KeyboardAccessory>
+        {noKeyboardAccessory ?
+          <View style={{ marginTop: this.props.verticalOffset }} >
+            {input}
+          </View>
+          :
+          <KeyboardAccessory verticalOffset={this.props.verticalOffset} backgroundColor='rgba(255, 255, 255, 0.9)'>
+            {input}
+          </KeyboardAccessory>}
       </React.Fragment>
     );
   }

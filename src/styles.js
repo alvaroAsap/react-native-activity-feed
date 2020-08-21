@@ -238,10 +238,6 @@ export const styles = {
   }),
   commentBox: StyleSheet.create({
     container: {
-      flex: 1,
-      //shadowOffset: { width: 0, height: -3 },
-      //shadowColor: 'black',
-      //shadowOpacity: 0.1,
       borderWidth: 1,
       borderRadius: 2,
       borderColor: 'rgba(153, 153, 153, 0.3)',
@@ -249,6 +245,8 @@ export const styles = {
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: 10,
+      minHeight: 50,
+      maxHeight: 150,
     },
     textInput: {
       flex: 1,

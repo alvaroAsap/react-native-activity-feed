@@ -189,7 +189,7 @@ class FlatFeedInner extends React.Component<PropsInner> {
           ListHeaderComponent={this.props.children}
           style={styles.container}
           refreshing={this.props.refreshing}
-          onRefresh={!this.props.reverseOrder && this.props.refresh}
+          onRefresh={this.props.onRefresh || this.props.refresh}
           data={this.props.activityOrder.map((id) =>
             this.props.activities.get(id),
           )}
