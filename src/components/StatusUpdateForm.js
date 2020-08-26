@@ -539,7 +539,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
             </View>
           </View>
         </View>
-        {this.props.fullscreen ? <KeyboardSpacer /> : null}
+        {this.props.fullscreen && Platform.OS === 'android' ? <KeyboardSpacer /> : null}
       </ScrollView>
     );
   }
