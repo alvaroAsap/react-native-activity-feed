@@ -65,7 +65,7 @@ export default class ReactionList extends React.PureComponent<Props> {
 
 type PropsInner = {| ...Props, ...BaseFeedCtx |};
 class ReactionListInner extends React.Component<PropsInner> {
-  initReactions() {
+  initReactions(ignoreOldestToNewest = false) {
     const {
       activityId,
       activities,
@@ -73,7 +73,7 @@ class ReactionListInner extends React.Component<PropsInner> {
       getActivityPath,
       oldestToNewest,
     } = this.props;
-    if (!oldestToNewest) {
+    if (!ignoreOldestToNewest && !oldestToNewest) {
       return;
     }
 
@@ -95,7 +95,7 @@ class ReactionListInner extends React.Component<PropsInner> {
   }
 
   componentDidMount() {
-    this.initReactions();
+    this.initReactions(true);
   }
 
   componentDidUpdate() {
@@ -197,6 +197,7 @@ class ReactionListInner extends React.Component<PropsInner> {
                     oldestToNewest,
                   )
           }
+          onEndReachedThreshold={0.3}
           {...this.props.flatListProps}
         />
         {!reverseOrder && loadMoreButton}

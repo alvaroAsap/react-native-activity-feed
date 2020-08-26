@@ -50,6 +50,11 @@ type Props = {|
  * @example ./examples/SinglePost.md
  */
 export default class SinglePost extends React.Component<Props> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { loading: false };
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -64,18 +69,26 @@ export default class SinglePost extends React.Component<Props> {
           styles={this.props.styles}
           navigation={this.props.navigation}
           doFeedRequest={(client, feedGroup, userId, options) =>
-            client
-              .feed(feedGroup, userId)
-              .getActivityDetail(this.props.activity.id, options)
+            new Promise((resolve, reject) => {
+              this.setState({loading:true}, ()=>{
+                client
+                  .feed(feedGroup, userId)
+                  .getActivityDetail(this.props.activity.id, options)
+                  .then(data=> this.setState({loading:false}, ()=> resolve(data)))
+                  .catch(error=> reject(error));
+              });
+            })
           }
           doReactionAddRequest={this.props.doReactionAddRequest}
           doReactionDeleteRequest={this.props.doReactionDeleteRequest}
           doChildReactionAddRequest={this.props.doChildReactionAddRequest}
           doChildReactionDeleteRequest={this.props.doChildReactionDeleteRequest}
           doReactionsFilterRequest={this.props.doReactionsFilterRequest}
+          onRefresh={this.props.onRefresh}
           Footer={this.props.Footer}
           setListRef={this.props.setListRef}
           noPagination
+          reverseOrder
         />
       </React.Fragment>
     );

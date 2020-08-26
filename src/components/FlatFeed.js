@@ -82,6 +82,8 @@ type Props = {|
    `this.yourRef.onRefresh(true)`
    */
   setListRef?: (ref: any) => any,
+  /** Reverse the order the reactions are displayed in. */
+  reverseOrder: boolean,
 |};
 
 /**
@@ -95,6 +97,7 @@ export default class FlatFeed extends React.Component<Props> {
     notify: false,
     Activity,
     Notifier: NewActivitiesNotification,
+    reverseOrder: false,
   };
 
   render() {
@@ -186,10 +189,11 @@ class FlatFeedInner extends React.Component<PropsInner> {
           ListHeaderComponent={this.props.children}
           style={styles.container}
           refreshing={this.props.refreshing}
-          onRefresh={this.props.refresh}
+          onRefresh={this.props.onRefresh || this.props.refresh}
           data={this.props.activityOrder.map((id) =>
             this.props.activities.get(id),
           )}
+          inverted={this.props.reverseOrder}
           keyExtractor={(item) => item.get('id')}
           renderItem={this._renderWrappedActivity}
           onEndReached={
