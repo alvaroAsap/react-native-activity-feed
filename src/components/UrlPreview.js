@@ -29,7 +29,7 @@ export default class UrlPreview extends React.Component<Props> {
                   ? {
                       uri: this.props.og.images[0].image,
                     }
-                  : require('../images/placeholder.png')
+                  : require('../images/placeholder.jpg')
               }
               style={[styles.image]}
             />

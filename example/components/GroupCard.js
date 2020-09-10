@@ -6,7 +6,7 @@ const GroupCard = ({ item }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={image ? { uri: image } : require('../images/placeholder.png')}
+        source={image ? { uri: image } : require('../images/placeholder.jpg')}
         style={styles.background}
         resizeMode="cover"
       />

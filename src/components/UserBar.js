@@ -42,7 +42,7 @@ const UserBar = withTranslationContext(
     ...props
   }: Props) => {
     username = username || 'Unknown';
-    location = location || 'New York';
+    location = location || '';
     let time = props.time;
     if (time === undefined && props.timestamp != null) {
       time = humanizeTimestamp(props.timestamp, tDateTimeParser);
