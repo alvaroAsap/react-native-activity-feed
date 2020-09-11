@@ -32,7 +32,7 @@ const Card = (props: Props): any => {
     >
       <Image
         style={styles.image}
-        source={image ? { uri: image } : require('../images/placeholder.png')}
+        source={image ? { uri: image } : require('../images/placeholder.jpg')}
         resizeMethod="resize"
       />
       <View style={styles.content}>

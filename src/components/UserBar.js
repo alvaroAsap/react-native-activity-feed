@@ -42,7 +42,7 @@ const UserBar = withTranslationContext(
     ...props
   }: Props) => {
     username = username || 'Unknown';
-    location = location || 'New York';
+    location = location || '';
     let time = props.time;
     if (time === undefined && props.timestamp != null) {
       time = humanizeTimestamp(props.timestamp, tDateTimeParser);
@@ -66,18 +66,16 @@ const UserBar = withTranslationContext(
 
     return (
       <View style={styles.container}>
-        {avatar ? (
-          <TouchableOpacity onPress={onPressAvatar} disabled={!onPressAvatar}>
-            <Avatar
-              source={avatar}
-              size={48}
-              noShadow
-              styles={
-                (styles && styles.avatar) || { container: { marginRight: 10 } }
-              }
-            />
-          </TouchableOpacity>
-        ) : null}
+        <TouchableOpacity onPress={onPressAvatar} disabled={!onPressAvatar}>
+          <Avatar
+            source={avatar}
+            size={48}
+            noShadow
+            styles={
+              (styles && styles.avatar) || { container: { marginRight: 10 } }
+            }
+          />
+        </TouchableOpacity>
 
         <View style={styles.content}>
           <View style={customStyles.usernameLocation}>

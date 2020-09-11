@@ -80,7 +80,7 @@ const AvatarInner = (props: InnerProps) => {
             borderRadius,
           },
         ]}
-        source={source ? { uri: source } : require('../images/placeholder.png')}
+        source={source ? { uri: source } : require('../images/placeholder.jpg')}
         resizeMethod="resize"
       />
       {editButton ? (
