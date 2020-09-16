@@ -84,6 +84,8 @@ type Props = {|
   setListRef?: (ref: any) => any,
   /** Reverse the order the reactions are displayed in. */
   reverseOrder: boolean,
+  /** Function called when an input is focused**/
+  onFocusInput?:(index: number, offset: number) => void,
 |};
 
 /**
@@ -141,9 +143,9 @@ class FlatFeedInner extends React.Component<PropsInner> {
     await this._refresh();
   }
 
-  _renderWrappedActivity = ({ item }: { item: any }) => (
+  _renderWrappedActivity = ({ item, index }: { item: any, index:number }) => (
     <ImmutableItemWrapper
-      renderItem={this._renderActivity}
+      renderItem={(i)=>this._renderActivity(i, index)}
       item={item}
       navigation={this.props.navigation}
       feedGroup={this.props.feedGroup}
@@ -164,11 +166,13 @@ class FlatFeedInner extends React.Component<PropsInner> {
     userId: this.props.userId,
   });
 
-  _renderActivity = (item: ActivityResponse<Object, Object>) => {
+  _renderActivity = (item: ActivityResponse<Object, Object>, index:number) => {
     const args = {
       activity: item,
       // $FlowFixMe
       styles: this.props.styles.activity,
+      index: index,
+      onCommentFocus: this.props.onFocusInput,
       ...this._childProps(),
     };
 
