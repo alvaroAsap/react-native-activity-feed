@@ -60,7 +60,8 @@ export default class LikeButton extends React.Component<Props> {
       const own_reactions = reaction.own_children;
       const like = own_reactions && own_reactions[reactionKind] && own_reactions[reactionKind].length == 0;
       return onToggleChildReaction(reactionKind, reaction, {}, {}).then(() => {
-        like === undefined ? callAction("LIKE") : callAction("LIKE", like);
+        if (callAction)
+          like === undefined ? callAction("LIKE") : callAction("LIKE", like);
       }
       );
     }
@@ -68,7 +69,8 @@ export default class LikeButton extends React.Component<Props> {
     const own_reactions = activity.own_reactions;
     const like = own_reactions && own_reactions[reactionKind] && own_reactions[reactionKind].length == 0;
     return onToggleReaction(reactionKind, activity, {}, {}).then(() => {
-      like === undefined ? callAction("LIKE") : callAction("LIKE", like);
+      if (callAction)
+        like === undefined ? callAction("LIKE") : callAction("LIKE", like);
     }
     );
   };
