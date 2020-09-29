@@ -30,6 +30,8 @@ type Props = {|
   /** Active and inactive like icons directories */
   activeImage: string,
   inactiveImage: string,
+  /** Action send to get parapoints when you like a post */
+  callAction?: () => void
 |};
 
 /**
@@ -51,10 +53,26 @@ export default class LikeButton extends React.Component<Props> {
       onToggleChildReaction,
     } = this.props;
 
+    const { callAction } = this.props;
+
+    // Send actions on Comments Screen
     if (reaction && onToggleChildReaction) {
-      return onToggleChildReaction(reactionKind, reaction, {}, {});
+      const own_reactions = reaction.own_children;
+      const like = own_reactions && own_reactions[reactionKind] && own_reactions[reactionKind].length == 0;
+      return onToggleChildReaction(reactionKind, reaction, {}, {}).then(() => {
+        if (callAction)
+          like === undefined ? callAction("LIKE") : callAction("LIKE", like);
+      }
+      );
     }
-    return onToggleReaction(reactionKind, activity, {}, {});
+    // Send actions on Feeds Screen
+    const own_reactions = activity.own_reactions;
+    const like = own_reactions && own_reactions[reactionKind] && own_reactions[reactionKind].length == 0;
+    return onToggleReaction(reactionKind, activity, {}, {}).then(() => {
+      if (callAction)
+        like === undefined ? callAction("LIKE") : callAction("LIKE", like);
+    }
+    );
   };
 
   render() {
