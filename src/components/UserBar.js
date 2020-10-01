@@ -19,8 +19,10 @@ type Props = {|
     icon ?: string,
 
     onPressAvatar ?: () => mixed,
+    onPressRightIcon ?: () => mixed,
     follow ?: boolean,
     styles ?: StyleSheetLike,
+    showRightIcon?: boolean,
 |} & Streami18Ctx;
 
 /**
@@ -35,10 +37,12 @@ const UserBar = withTranslationContext(
     avatar,
     follow,
     onPressAvatar,
+    onPressRightIcon,
     icon,
     tDateTimeParser,
     image,
     font,
+    showRightIcon,
     ...props
   }: Props) => {
     username = username || 'Unknown';
@@ -98,9 +102,11 @@ const UserBar = withTranslationContext(
             <Text style={styles.time}>{time}</Text>
           </View>
         )} */}
-        <View>
-          <Image source={image} />
-        </View>
+        { showRightIcon &&
+          <TouchableOpacity onPress={onPressRightIcon} disabled={!onPressRightIcon}>
+            <Image source={image} />
+          </TouchableOpacity>
+        }
         {/* {follow && (
           <View>
             <FollowButton followed />
