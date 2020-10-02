@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { humanizeTimestamp } from '../utils';
 
 import Avatar from './Avatar';
@@ -19,8 +19,11 @@ type Props = {|
     icon ?: string,
 
     onPressAvatar ?: () => mixed,
+    onPressRightIcon ?: () => mixed,
     follow ?: boolean,
     styles ?: StyleSheetLike,
+    showRightIcon?: boolean,
+    rightIconLoading? :boolean,
 |} & Streami18Ctx;
 
 /**
@@ -35,10 +38,13 @@ const UserBar = withTranslationContext(
     avatar,
     follow,
     onPressAvatar,
+    onPressRightIcon,
     icon,
     tDateTimeParser,
     image,
     font,
+    showRightIcon,
+    rightIconLoading,
     ...props
   }: Props) => {
     username = username || 'Unknown';
@@ -98,9 +104,15 @@ const UserBar = withTranslationContext(
             <Text style={styles.time}>{time}</Text>
           </View>
         )} */}
-        <View>
-          <Image source={image} />
-        </View>
+        { showRightIcon &&
+          (rightIconLoading ? 
+            <ActivityIndicator color="#008DFF" size="small" />
+            :          
+            <TouchableOpacity onPress={onPressRightIcon} disabled={!onPressRightIcon}>
+              <Image source={image} />
+            </TouchableOpacity>
+          )
+        }
         {/* {follow && (
           <View>
             <FollowButton followed />
