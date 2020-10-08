@@ -110,6 +110,7 @@ type State = {|
   focused: boolean,
   urls: Array<string>,
   dismissedUrls: Array<string>,
+  loading: boolean
 |};
 
 class StatusUpdateForm extends React.Component<Props> {
@@ -185,6 +186,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     tagsFromInput: '',
     clearInput: false,
     focused: false,
+    loading: false,
     urls: [],
     dismissedUrls: [],
   };
@@ -365,12 +367,14 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
 
   onSubmitForm = async () => {
     try {
+      this.setState({ loading: true });
       await this.addActivity();
     } catch (e) {
       this.props.errorHandler(e, 'add-activity', {
         feedGroup: this.props.feedGroup,
         userId: this.props.userId,
       });
+      this.setState({ loading: false });
       return;
     }
     Keyboard.dismiss();
@@ -386,6 +390,7 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
       focused: false,
       urls: [],
       dismissedUrls: [],
+      loading: false
     });
     if (this.props.onSuccess) {
       this.props.onSuccess();
@@ -396,17 +401,17 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
     const { t } = this.props;
     const styles = buildStylesheet('statusUpdateForm', this.props.styles);
 
-    const submitButtonWithProps = this.props.submitButton ? 
+    const submitButtonWithProps = this.props.submitButton ?
       Children.map(this.props.submitButton, child => {
         // Checking isValidElement is the safe way and avoids a TS error too.
         if (isValidElement(child)) {
           return cloneElement(child, {
             onPress: this.onSubmitForm,
-            disabled: !this._canSubmit()
+            disabled: !this._canSubmit() || this.state.loading
           })
         }
         return child;
-      }) : 
+      }) :
       <TouchableOpacity
         title={t('Pick an image from camera roll')}
         onPress={this.onSubmitForm}
@@ -421,127 +426,137 @@ class StatusUpdateFormInner extends React.Component<PropsInner, State> {
           style={styles.submitImage}
         />
       </TouchableOpacity>
-    ;
+      ;
 
     return (
-      <ScrollView style={{flex:1, backgroundColor: "#ffffff"}}>
-        <View
-          style={[
-            styles.container,
-            this.props.fullscreen ? { flex: 1 } : {},
-          ]}
-        >
-          {this.state.og && (
-            <UrlPreview
-              onPressDismiss={this._onPressDismiss}
-              og={this.state.og}
-              styles={
-                // $FlowFixMe
-                this.props.styles.urlPreview
-              }
-            />
-          )}
+      <>
+        {this.state.loading &&
+          <View style={styles.activityIndicatorContainer}>
+            <ActivityIndicator size="large" color="#0C71C3" />
+          </View>
+        }
+        {!(this.state.loading) &&
+          <ScrollView style={{ flex: 1, backgroundColor: "#ffffff" }}>
 
-          <View style={styles.newPostContainer}>
-            <View>
-              <Text style={[styles.textInputTitle]}>{t('What are your thoughts?')}</Text>
-              <View style={[styles.textInput, this.state.textFromInput.length > this.props.textMaxLength ? {borderColor: '#EB5757'} : {}]}>
-                <TextInput
-                  ref={this.textInputRef}
-                  style={[styles.largeInputField, this.props.fullscreen ? { flex: 1 } : {}]}
-                  multiline
-                  onChangeText={(text) => {
-                    this.setState({ textFromInput: text });
-                    this._handleOgDebounced(text);
-                  }}
-                  value={this.state.textFromInput}
-                  autocorrect={false}
-                  placeholder={t('Type your post...')}
-                  underlineColorAndroid="transparent"
-                  onBlur={() => this.setState({ focused: false })}
-                  onFocus={() => this.setState({ focused: true })}
-                  {...this.props.textInputProps}
-                />
-              </View>
-              <Text style={[styles.textInputCountLimit, this.state.textFromInput.length > this.props.textMaxLength ? {color: '#EB5757'} : {}]}>{this.state.textFromInput.length}/{this.props.textMaxLength}</Text>
-            </View>
-            <View style={{marginBottom: 20}}>
-              <Text style={[styles.textInputTitle]}>{t('Tags')}</Text>
-              <View style={[styles.singleTextInput]}>
-                <TextInput
-                  ref={this.tagsInputRef}
-                  style={[styles.inputField, this.props.fullscreen ? { flex: 1 } : {}]}
-                  onChangeText={(text) => {
-                    this.setState({ tagsFromInput: text });
-                    this._handleOgDebounced(text);
-                  }}
-                  value={this.state.tagsFromInput}
-                  autocorrect={false}
-                  placeholder={t('Add "Fitness" or "Family"')}
-                  underlineColorAndroid="transparent"
-                  onBlur={() => this.setState({ focused: false })}
-                  onFocus={() => this.setState({ focused: true })}
-                  {...this.props.textInputProps}
-                />
-              </View>
-            </View>
             <View
               style={[
-                styles.actionPanel,
-                this.state.focused ? {} : styles.actionPanelBlur,
+                styles.container,
+                this.props.fullscreen ? { flex: 1 } : {},
               ]}
             >
-              <View
-                style={[
-                  styles.imageContainer,
-                  this.state.focused ? {} : styles.imageContainerBlur,
-                ]}
-              >
-                {this.state.image ? (
-                  <React.Fragment>
-                    <Image
-                      source={{ uri: this.state.image }}
-                      style={
-                        this.state.imageState === ImageState.UPLOADING
-                          ? styles.image_loading
-                          : styles.image
-                      }
-                      resizeMethod="resize"
-                      resizeMode="cover"
+              {this.state.og && (
+                <UrlPreview
+                  onPressDismiss={this._onPressDismiss}
+                  og={this.state.og}
+                  styles={
+                    // $FlowFixMe
+                    this.props.styles.urlPreview
+                  }
+                />
+              )}
+
+              <View style={styles.newPostContainer}>
+                <View>
+                  <Text style={[styles.textInputTitle]}>{t('What are your thoughts?')}</Text>
+                  <View style={[styles.textInput, this.state.textFromInput.length > this.props.textMaxLength ? { borderColor: '#EB5757' } : {}]}>
+                    <TextInput
+                      ref={this.textInputRef}
+                      style={[styles.largeInputField, this.props.fullscreen ? { flex: 1 } : {}]}
+                      multiline
+                      onChangeText={(text) => {
+                        this.setState({ textFromInput: text });
+                        this._handleOgDebounced(text);
+                      }}
+                      value={this.state.textFromInput}
+                      autocorrect={false}
+                      placeholder={t('Type your post...')}
+                      underlineColorAndroid="transparent"
+                      onBlur={() => this.setState({ focused: false })}
+                      onFocus={() => this.setState({ focused: true })}
+                      {...this.props.textInputProps}
                     />
-                    <View style={styles.imageOverlay}>
-                      {this.state.imageState === ImageState.UPLOADING ? (
-                        <ActivityIndicator color="#ffffff" />
-                      ) : (
-                        <TouchableOpacity onPress={this._removeImage}>
-                          <Image
-                            source={require('../images/icons/close-white.png')}
-                            style={[{ width: 24, height: 24 }]}
-                          />
+                  </View>
+                  <Text style={[styles.textInputCountLimit, this.state.textFromInput.length > this.props.textMaxLength ? { color: '#EB5757' } : {}]}>{this.state.textFromInput.length}/{this.props.textMaxLength}</Text>
+                </View>
+                <View style={{ marginBottom: 20 }}>
+                  <Text style={[styles.textInputTitle]}>{t('Tags')}</Text>
+                  <View style={[styles.singleTextInput]}>
+                    <TextInput
+                      ref={this.tagsInputRef}
+                      style={[styles.inputField, this.props.fullscreen ? { flex: 1 } : {}]}
+                      onChangeText={(text) => {
+                        this.setState({ tagsFromInput: text });
+                        this._handleOgDebounced(text);
+                      }}
+                      value={this.state.tagsFromInput}
+                      autocorrect={false}
+                      placeholder={t('Add "Fitness" or "Family"')}
+                      underlineColorAndroid="transparent"
+                      onBlur={() => this.setState({ focused: false })}
+                      onFocus={() => this.setState({ focused: true })}
+                      {...this.props.textInputProps}
+                    />
+                  </View>
+                </View>
+                <View
+                  style={[
+                    styles.actionPanel,
+                    this.state.focused ? {} : styles.actionPanelBlur,
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.imageContainer,
+                      this.state.focused ? {} : styles.imageContainerBlur,
+                    ]}
+                  >
+                    {this.state.image ? (
+                      <React.Fragment>
+                        <Image
+                          source={{ uri: this.state.image }}
+                          style={
+                            this.state.imageState === ImageState.UPLOADING
+                              ? styles.image_loading
+                              : styles.image
+                          }
+                          resizeMethod="resize"
+                          resizeMode="cover"
+                        />
+                        <View style={styles.imageOverlay}>
+                          {this.state.imageState === ImageState.UPLOADING ? (
+                            <ActivityIndicator color="#ffffff" />
+                          ) : (
+                              <TouchableOpacity onPress={this._removeImage}>
+                                <Image
+                                  source={require('../images/icons/close-white.png')}
+                                  style={[{ width: 24, height: 24 }]}
+                                />
+                              </TouchableOpacity>
+                            )}
+                        </View>
+                      </React.Fragment>
+                    ) : (
+                        <TouchableOpacity
+                          title={t('Pick an image from camera roll')}
+                          onPress={this._pickImage}
+                        >
+                          {this.props.uploadImageImage ? this.props.uploadImageImage : <Image
+                            source={require('../images/icons/gallery.png')}
+                            style={{ width: 24, height: 24 }}
+                          />}
                         </TouchableOpacity>
                       )}
-                    </View>
-                  </React.Fragment>
-                ) : (
-                  <TouchableOpacity
-                    title={t('Pick an image from camera roll')}
-                    onPress={this._pickImage}
-                  >
-                    {this.props.uploadImageImage ? this.props.uploadImageImage  : <Image
-                      source={require('../images/icons/gallery.png')}
-                      style={{ width: 24, height: 24 }}
-                    />}
-                  </TouchableOpacity>
-                )}
-              </View>
-              
-              {submitButtonWithProps}
+                  </View>
 
+                  {submitButtonWithProps}
+
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
-        {this.props.fullscreen && Platform.OS === 'android' ? <KeyboardSpacer /> : null}
-      </ScrollView>
+            {this.props.fullscreen && Platform.OS === 'android' ? <KeyboardSpacer /> : null}
+          </ScrollView>
+        }
+      </>
     );
   }
 }

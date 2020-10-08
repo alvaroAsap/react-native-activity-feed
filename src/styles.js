@@ -179,6 +179,13 @@ export const styles = {
       width: 24,
       height: 24,
     },
+    activityIndicatorContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: "#ffffff",
+      width: '100%',
+      height: '100%'
+    },
   }),
   urlPreview: StyleSheet.create({
     wrapper: {
