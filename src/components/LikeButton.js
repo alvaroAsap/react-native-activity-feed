@@ -14,24 +14,24 @@ type Props = {|
   /** The activity received from Stream that should be liked when pressing the
    * LikeButton. */
   activity: BaseActivityResponse,
-  /** The reaction received from Stream that should be liked when pressing the
-   * LikeButton. Liking a reaction requires to pass both this field and
-   * the `onToggleChildReaction` as well. */
-  reaction?: BaseReaction,
-  /** The reactionKind that is used to like, you can for instance set this to
-   * `heart`. */
-  reactionKind: string,
-  /** The function that toggles reactions on activities. */
-  onToggleReaction: ToggleReactionCallbackFunction,
-  /** The function that toggles reactions on reactions. */
-  onToggleChildReaction?: ToggleChildReactionCallbackFunction,
-  /** Styling of the button */
-  styles?: StyleSheetLike,
-  /** Active and inactive like icons directories */
-  activeImage: string,
-  inactiveImage: string,
-  /** Action send to get parapoints when you like a post */
-  callAction?: () => void
+    /** The reaction received from Stream that should be liked when pressing the
+     * LikeButton. Liking a reaction requires to pass both this field and
+     * the `onToggleChildReaction` as well. */
+    reaction ?: BaseReaction,
+    /** The reactionKind that is used to like, you can for instance set this to
+     * `heart`. */
+    reactionKind: string,
+      /** The function that toggles reactions on activities. */
+      onToggleReaction: ToggleReactionCallbackFunction,
+        /** The function that toggles reactions on reactions. */
+        onToggleChildReaction ?: ToggleChildReactionCallbackFunction,
+        /** Styling of the button */
+        styles ?: StyleSheetLike,
+        /** Active and inactive like icons directories */
+        activeImage: string,
+          inactiveImage: string,
+            /** Action send to get parapoints when you like a post */
+            callAction ?: () => void
 |};
 
 /**
@@ -61,7 +61,7 @@ export default class LikeButton extends React.Component<Props> {
       const like = own_reactions && own_reactions[reactionKind] && own_reactions[reactionKind].length == 0;
       return onToggleChildReaction(reactionKind, reaction, {}, {}).then(() => {
         if (callAction)
-          like === undefined ? callAction("LIKE") : callAction("LIKE", like);
+          like === undefined ? callAction("LIKE", true, reaction.user_id) : callAction("LIKE", like, reaction.user_id);
       }
       );
     }
@@ -70,7 +70,7 @@ export default class LikeButton extends React.Component<Props> {
     const like = own_reactions && own_reactions[reactionKind] && own_reactions[reactionKind].length == 0;
     return onToggleReaction(reactionKind, activity, {}, {}).then(() => {
       if (callAction)
-        like === undefined ? callAction("LIKE") : callAction("LIKE", like);
+        like === undefined ? callAction("LIKE", true, activity.actor.id) : callAction("LIKE", like, activity.actor.id);
     }
     );
   };
