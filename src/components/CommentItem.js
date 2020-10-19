@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { humanizeTimestamp, smartRender } from '../utils';
 import Avatar from './Avatar';
 import { buildStylesheet } from '../styles';
@@ -20,6 +20,7 @@ type Props = {
   /** Handle errors in the render method in a custom way, by default this
    * component logs the error in the console **/
   componentDidCatch?: (error: Error, info: {}, props: Props) => mixed,
+  onPressAvatar?: () => mixed,
 } & Streami18Ctx;
 
 /**
@@ -38,11 +39,13 @@ class CommentItem extends React.Component<Props> {
   }
 
   render() {
-    const { comment, tDateTimeParser } = this.props;
+    const { comment, tDateTimeParser, onPressAvatar } = this.props;
     const styles = buildStylesheet('commentItem', this.props.styles || {});
     return (
       <View style={styles.container}>
-        <Avatar source={comment.user.data.profileImage} size={35} noShadow />
+        <TouchableOpacity onPress={onPressAvatar} disabled={!onPressAvatar}>
+          <Avatar source={comment.user.data.profileImage} size={35} noShadow />
+        </TouchableOpacity>
         <View style={styles.commentText}>
           <Text>
             <Text style={styles.commentAuthor}>{comment.user.data.name} </Text>
