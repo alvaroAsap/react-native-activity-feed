@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { humanizeTimestamp, smartRender } from '../utils';
 import Avatar from './Avatar';
 import { buildStylesheet } from '../styles';
