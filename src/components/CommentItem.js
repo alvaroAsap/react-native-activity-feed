@@ -20,7 +20,7 @@ type Props = {
   /** Handle errors in the render method in a custom way, by default this
    * component logs the error in the console **/
   componentDidCatch?: (error: Error, info: {}, props: Props) => mixed,
-  onPressAvatar: () => mixed,
+  onPressAvatar?: () => mixed,
 } & Streami18Ctx;
 
 /**
