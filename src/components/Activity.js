@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   Linking,
   ImageBackground,
+  StyleSheet
 } from 'react-native';
 
 import { humanizeTimestamp } from '../utils';
-import ReadMore from 'react-native-read-more-text';
+import ReadMore from 'react-native-read-more';
 
-import { buildStylesheet, updateStyle } from '../styles';
+import { buildStylesheet } from '../styles';
 
 import _ from 'lodash';
 
@@ -26,6 +27,21 @@ import type {
   BaseUserResponse,
 } from '../types';
 import { smartRender } from '../utils';
+
+const customStyles = StyleSheet.create({
+  text: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: "normal",
+    fontSize: 16,
+    color: "#333333",
+  },
+  moreLess: {
+    color: "gray",
+    fontSize: 16,
+    textDecorationLine: 'underline'
+  }
+});
 
 type Props = {|
   Header?: Renderable,
@@ -191,7 +207,7 @@ export default class Activity extends React.Component<Props> {
     }
     return rendered;
   };
-  
+
   renderTags = (tags: Array<string>, activity: ActivityData) => {
     if (tags && tags.length >= 1 && tags[0] !== "") {
       const styles = buildStylesheet('activity', this.props.styles);
@@ -228,13 +244,14 @@ export default class Activity extends React.Component<Props> {
               <View style={{ flex: 1, flexDirection: 'column' }}>
                 <View style={styles.content}>
                   <ReadMore
-                    numberOfLines={3}
-                    renderTruncatedFooter={this._renderTruncatedFooter}
-                    renderRevealedFooter={this._renderRevealedFooter}
-                    onReady={this._handleTextReady}>
-                    <Text style={styles.text}>
-                      {this.renderText(text, this.props.activity)}
-                    </Text>
+                    seeMoreText={'More'}
+                    seeLessText={'Less'}
+                    animate={false}
+                    seeMoreStyle={customStyles.moreLess}
+                    seeLessStyle={customStyles.moreLess}
+                    style={customStyles.text}
+                  >
+                    {text}
                   </ReadMore>
                 </View>
 
@@ -284,16 +301,17 @@ export default class Activity extends React.Component<Props> {
               <View style={{ flex: 1, flexDirection: 'column' }}>
                 <View style={styles.content}>
                   <ReadMore
-                    numberOfLines={3}
-                    renderTruncatedFooter={this._renderTruncatedFooter}
-                    renderRevealedFooter={this._renderRevealedFooter}
-                    onReady={this._handleTextReady}>
-                    <Text style={styles.text}>
-                      {this.renderText(text, this.props.activity)}
-                    </Text>
+                    seeMoreText={'More'}
+                    seeLessText={'Less'}
+                    animate={false}
+                    seeMoreStyle={customStyles.moreLess}
+                    seeLessStyle={customStyles.moreLess}
+                    style={customStyles.text}
+                  >
+                    {text}
                   </ReadMore>
                 </View>
-                
+
                 {this.renderTags(tags, this.props.activity)}
 
                 <View style={{
@@ -358,16 +376,16 @@ export default class Activity extends React.Component<Props> {
   };
 
   _renderTruncatedFooter = (handlePress) => (
-      <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
-        More
-      </Text>
-    )
+    <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
+      More
+    </Text>
+  )
 
   _renderRevealedFooter = (handlePress) => (
-      <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
-        Less
-      </Text>
-    )
+    <Text style={{ color: "gray", marginTop: 5, textDecorationLine: 'underline' }} onPress={handlePress}>
+      Less
+    </Text>
+  )
 
   renderFooter = () => null;
 
