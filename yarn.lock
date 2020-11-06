@@ -8532,6 +8532,12 @@ react-native-keyboard-spacer@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.4.1.tgz#46f18a320432098a25ea9fa89f5143dd254d332d"
 
+"react-native-read-more@https://github.com/joaquin-viera/react-native-read-more.git":
+  version "1.0.8"
+  resolved "https://github.com/joaquin-viera/react-native-read-more.git#1497acff2db244b65c395f3e1540161bb32397c3"
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-safe-area-view@0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.9.0.tgz#10ece2ecac70e7005a5b0b3f06c8833060e6d21f"
