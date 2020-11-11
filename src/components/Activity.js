@@ -264,7 +264,7 @@ export default class Activity extends React.Component<Props> {
                   resizeMethod="resize"
                 >
                   <View style={{ flexDirection: "row" }}>
-                    <View style={{ flexDirection: "row", flex: 1, marginHorizontal: 20 }}>
+                    <View style={{ flexDirection: "row", flex: 1, marginLeft: 6, marginRight: 20 }}>
                       <LikeButton
                         {...this.props}
                         labelSingle="like"
@@ -322,7 +322,7 @@ export default class Activity extends React.Component<Props> {
                 }} />
 
                 <View style={{ flexDirection: "row" }}>
-                  <View style={{ flexDirection: "row", flex: 1, marginHorizontal: 20 }}>
+                  <View style={{ flexDirection: "row", flex: 1, marginLeft: 6, marginRight: 20 }}>
                     <LikeButton
                       {...this.props}
                       labelSingle="like"
