@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { View, TextInput, Image } from 'react-native';
+import { View, TextInput, Image, TouchableOpacity } from 'react-native';
 import KeyboardAccessory from 'react-native-sticky-keyboard-accessory';
 
 import Avatar from './Avatar';
@@ -10,40 +10,42 @@ import type { Props as AvatarProps } from './Avatar';
 import type { Streami18Ctx } from '../Context/StreamApp';
 import { buildStylesheet } from '../styles';
 import { withTranslationContext } from '../Context';
+import EmojiSelector, { Categories } from "react-native-emoji-selector";
 
-type Props = {|
+type Props = {| 
   /** Callback function called when the text is submitted, by default it adds a
    * comment reaction to the provided activity */
   onSubmit?: (string) => mixed,
-  /** Height in pixels for the whole component */
-  height?: number,
-  /** Props used to render the Avatar component */
-  avatarProps?: AvatarProps,
-  /** Skips the Avatar component when provided */
+    /** Height in pixels for the whole component */
+    height ?: number,
+    /** Props used to render the Avatar component */
+    avatarProps ?: AvatarProps,
+    /** Skips the Avatar component when provided */
     noAvatar ?: boolean,
     /** Style changes to default */
-  styles?: StyleSheetLike,
-  /** activity */
-  activity: ActivityData,
-  /** event callback handler fired when the enter button is pressed */
-  onAddReaction: (string, ActivityData, any) => void,
-  /** Removes KeyboardAccessory. When disabling this keep in mind that the
-   * input won't move with the keyboard anymore. */
-  noKeyboardAccessory: boolean,
-  /** Custom verticalOffset for the KeyboardAccessory if for some reason the
-   * component is positioned wrongly when the keyboard opens. If the item is
-   * positioned too high this should be a negative number, if it's positioned
-   * too low it should be positive. One known case where this happens is when
-   * using react-navigation with `tabBarPosition: 'bottom'`.  */
-  verticalOffset: number,
-  /** Any props the React Native TextInput accepts */
-  textInputProps?: {},
-  reactionImage ?: string,
-  coin ?: string,
+    styles ?: StyleSheetLike,
+    /** activity */
+    activity: ActivityData,
+      /** event callback handler fired when the enter button is pressed */
+      onAddReaction: (string, ActivityData, any) => void,
+        /** Removes KeyboardAccessory. When disabling this keep in mind that the
+         * input won't move with the keyboard anymore. */
+        noKeyboardAccessory: boolean,
+          /** Custom verticalOffset for the KeyboardAccessory if for some reason the
+           * component is positioned wrongly when the keyboard opens. If the item is
+           * positioned too high this should be a negative number, if it's positioned
+           * too low it should be positive. One known case where this happens is when
+           * using react-navigation with `tabBarPosition: 'bottom'`.  */
+          verticalOffset: number,
+            /** Any props the React Native TextInput accepts */
+            textInputProps ?: {},
+            reactionImage ?: string,
+            coin ?: string,
 |} & Streami18Ctx;
 
 type State = {|
   text: string,
+    openKeyboard: boolean,
 |};
 
 /**
@@ -59,9 +61,6 @@ class CommentBox extends React.Component<Props, State> {
     noKeyboardAccessory: false,
   };
 
-  state = {
-    text: '',
-  };
 
   postComment(event: NativeSyntheticEvent<>) {
     if (this.props.onSubmit !== undefined) {
@@ -80,7 +79,10 @@ class CommentBox extends React.Component<Props, State> {
     const input = (
       <View style={styles.container}>
 
-        <Image source={this.props.reactionImage} />
+        <TouchableOpacity
+          onPress={() => this.setState(prevState => ({ ...prevState, openKeyboard: !prevState.openKeyboard }))}>
+          <Image source={this.props.reactionImage} />
+        </TouchableOpacity>
         <TextInput
           value={this.state.text}
           blurOnSubmit={true}
@@ -101,6 +103,16 @@ class CommentBox extends React.Component<Props, State> {
           {...textInputProps}
         />
         {this.props.coin}
+
+        {this.state.openKeyboard && <EmojiSelector
+          onEmojiSelected={emoji => setemoji(emoji)}
+          showSearchBar={true}
+          showTabs={true}
+          showHistory={true}
+          showSectionTitles={true}
+          category={Categories.all}
+          columns={8}
+        />}
       </View>
     );
 
