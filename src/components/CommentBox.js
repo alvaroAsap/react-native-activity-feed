@@ -105,7 +105,7 @@ class CommentBox extends React.Component<Props, State> {
         {this.props.coin}
 
         {this.state.openKeyboard && <EmojiSelector
-          onEmojiSelected={emoji => setemoji(emoji)}
+          // onEmojiSelected={emoji => setemoji(emoji)}
           showSearchBar={true}
           showTabs={true}
           showHistory={true}
